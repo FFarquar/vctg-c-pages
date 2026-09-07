@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VCTG-C — Campaign Author</title>
+    <style>
+      html, body { margin: 0; padding: 0; background: #1b1b1b; color: #e6e6e6; font: 13px/1.4 system-ui, sans-serif; }
+      #root { display: flex; flex-direction: column; height: 100vh; }
+
+      .sa-banner { background: #5a1f1f; color: #ffd6d6; padding: 6px 12px; font-size: 12px; }
+      .sa-banner:empty { display: none; }
+
+      .sa-tabbar { display: flex; gap: 4px; padding: 8px 10px 0; border-bottom: 1px solid #333; }
+      .sa-tab {
+        background: #262626; color: #ccc; border: 1px solid #3a3a3a; border-bottom: none;
+        padding: 6px 14px; border-radius: 4px 4px 0 0; cursor: pointer; font: inherit;
+      }
+      .sa-tab[aria-selected="true"] { background: #1b1b1b; color: #fff; border-color: #555; }
+      .sa-tab:disabled { color: #555; cursor: not-allowed; }
+
+      /* Sub-tab row (a group's tabs — e.g. Campaign Scenarios' Campaign
+         Settings/Map/OB) — indented and slightly smaller so it reads as
+         nested under the top-level bar above it. */
+      .sa-subtabbar { padding-left: 24px; }
+      .sa-subtab { font-size: 12px; padding: 4px 12px; }
+
+      .sa-pane { flex: 1; overflow: auto; padding: 14px; }
+
+      .sa-section { border: 1px solid #333; border-radius: 4px; padding: 10px 12px; margin-bottom: 14px; }
+      .sa-section > h3 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #9ab; }
+
+      .sa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px 10px; }
+      .sa-field { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
+      .sa-field label { color: #aaa; }
+      .sa-field input, .sa-field select { background: #111; color: #eee; border: 1px solid #444; border-radius: 3px; padding: 3px 5px; font: inherit; }
+      .sa-field input[type="checkbox"] { width: 16px; height: 16px; align-self: flex-start; }
+
+      /* Controls carrying a hover/focus tooltip (see src/campaignAuthor/tooltip.ts). */
+      [data-sa-tip] { cursor: help; }
+      [data-sa-tip] input, [data-sa-tip] select { cursor: auto; }
+      .sa-field[data-sa-tip] > label { text-decoration: underline dotted rgba(255, 255, 255, 0.35); text-underline-offset: 2px; }
+      .sa-tooltip {
+        position: fixed; z-index: 1000; max-width: 280px; pointer-events: none;
+        background: #0c0c0c; color: #e8e8e8; border: 1px solid #555; border-radius: 4px;
+        padding: 6px 8px; font-size: 11.5px; line-height: 1.35;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      }
+
+      .sa-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+      .sa-btn { background: #2c3e50; color: #fff; border: 1px solid #45607a; border-radius: 3px; padding: 4px 10px; cursor: pointer; font: inherit; }
+      .sa-btn:hover { background: #34495e; }
+      .sa-btn:disabled { background: #333; color: #777; border-color: #444; cursor: not-allowed; }
+      .sa-btn-danger { background: #5a2c2c; border-color: #7a4545; }
+      .sa-btn[aria-pressed="true"] { outline: 2px solid #fff; outline-offset: -1px; }
+
+      .sa-array-item { border: 1px dashed #444; border-radius: 4px; padding: 8px; margin-bottom: 8px; position: relative; }
+
+      table.sa-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+      table.sa-table th, table.sa-table td { border: 1px solid #333; padding: 4px 6px; text-align: left; }
+      table.sa-table th { background: #222; color: #9ab; }
+
+      .sa-map-layout { display: flex; gap: 10px; height: calc(100vh - 90px); }
+      .sa-map-canvas { flex: 1; background: #101010; border: 1px solid #333; }
+      .sa-map-side { width: 280px; overflow-y: auto; }
+    </style>
+    <script type="module" crossorigin src="./assets/campaignAuthor-DTBe1R6s.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/mapRenderer-CT0WX2jQ.js">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

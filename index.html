@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VCTG-C</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@400;500&family=Spectral:wght@500;700&family=Cormorant+Garamond:wght@600;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      html, body { margin: 0; padding: 0; height: 100%; background: #1b1b1b; color: #e6e6e6; font: 13px/1.4 system-ui, sans-serif; }
+      #app { width: 100vw; height: 100vh; display: block; }
+
+      /* -- era theme tokens (design handoff: docs/design_review_extracted/…) --
+         Three shippable eras — Dispatch (default) / Ledger / Atlas. Industry
+         (VCTG's own look) was deliberately excluded from the shippable set,
+         per direction given live in the design session (see memory:
+         project_design_era_themes.md). Tokens are opt-in: nothing in the
+         existing login/picker/map chrome below reads these yet, so this block
+         is inert until Phase B/D screens adopt `.era-theme` + the component
+         classes further down. National flag colors are NOT part of this
+         palette — they stay real-world-accurate regardless of era. */
+      [data-theme="dispatch"], :root {
+        --color-bg: #f1e7d3; --color-surface: #e9dbc0; --color-text: #3a2c1d;
+        --color-accent: #7a1f1f; --color-caution: #b6862f; --color-danger: #5a1616;
+        --color-divider: rgba(58, 44, 29, .24);
+        --color-accent-100: #f3ded0; --color-accent-300: #dba896; --color-accent-400: #b06a5a;
+        --color-accent-600: #6a1c1c; --color-accent-700: #5a1616; --color-accent-800: #4a1010; --color-accent-900: #300a0a;
+        --color-neutral-100: #f6ecd9; --color-neutral-300: #ddcdae; --color-neutral-500: #b6a17e;
+        --color-neutral-700: #7a5b3a; --color-neutral-800: #5a4530; --color-neutral-900: #3a2c1d;
+        --font-heading: "Playfair Display", serif; --font-heading-weight: 600;
+        --font-body: "Source Serif 4", serif;
+        --board-bg: #241a10; --board-grid: rgba(122, 31, 31, .18);
+        --board-chrome-bg: rgba(36, 26, 16, .92); --board-chrome-border: rgba(241, 231, 211, .3);
+        --board-chrome-muted: rgba(241, 231, 211, .5); --board-chrome-text: #f1e7d3;
+      }
+      [data-theme="ledger"] {
+        --color-bg: #ded2ae; --color-surface: #d3c496; --color-text: #2b2413;
+        --color-accent: #3a5a2f; --color-caution: #8a6a2f; --color-danger: #7a2f1f;
+        --color-divider: rgba(43, 36, 19, .26);
+        --color-accent-100: #dce6d2; --color-accent-300: #a9c093; --color-accent-400: #7c9a6a;
+        --color-accent-600: #2f4a26; --color-accent-700: #26401e; --color-accent-800: #1c3016; --color-accent-900: #132010;
+        --color-neutral-100: #eee4c8; --color-neutral-300: #cdbd8e; --color-neutral-500: #a5926a;
+        --color-neutral-700: #5a4d28; --color-neutral-800: #40371c; --color-neutral-900: #2b2413;
+        --font-heading: "Spectral", serif; --font-heading-weight: 700;
+        --font-body: "Spectral", serif;
+        --board-bg: #20240f; --board-grid: rgba(58, 90, 47, .2);
+        --board-chrome-bg: rgba(32, 36, 15, .92); --board-chrome-border: rgba(222, 210, 174, .3);
+        --board-chrome-muted: rgba(222, 210, 174, .5); --board-chrome-text: #ded2ae;
+      }
+      [data-theme="atlas"] {
+        --color-bg: #16233d; --color-surface: #101c33; --color-text: #e7d9ab;
+        --color-accent: #c9a85e; --color-caution: #d9b46a; --color-danger: #b5533f;
+        --color-divider: rgba(201, 168, 94, .35);
+        --color-accent-100: rgba(201, 168, 94, .18); --color-accent-300: rgba(201, 168, 94, .4); --color-accent-400: #8a7a52;
+        --color-accent-600: #e0c17a; --color-accent-700: #f2e6bd; --color-accent-800: #f8efd2; --color-accent-900: #fff8e6;
+        --color-neutral-100: rgba(231, 217, 171, .08); --color-neutral-300: rgba(201, 168, 94, .28); --color-neutral-500: #8a7a52;
+        --color-neutral-700: #cbb98a; --color-neutral-800: #e7d9ab; --color-neutral-900: #f2e6bd;
+        --font-heading: "Cormorant Garamond", serif; --font-heading-weight: 600;
+        --font-body: "EB Garamond", serif;
+        --board-bg: #0c1526; --board-grid: rgba(201, 168, 94, .14);
+        --board-chrome-bg: rgba(12, 21, 38, .92); --board-chrome-border: rgba(201, 168, 94, .35);
+        --board-chrome-muted: rgba(201, 168, 94, .5); --board-chrome-text: #e7d9ab;
+      }
+      :root {
+        --radius-sm: 2px; --radius-md: 4px; --radius-lg: 7px;
+        --space-1: 3.4px; --space-2: 6.8px; --space-3: 10.2px; --space-4: 13.6px; --space-6: 20.4px; --space-8: 27.2px;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, .14);
+        --shadow-md: 0 3px 10px rgba(0, 0, 0, .16);
+        --shadow-lg: 0 12px 32px rgba(0, 0, 0, .22);
+      }
+
+      /* -- era-theme component library — opt-in via `.era-theme`, mirrors
+         CTG's Industry system (src/ui/theme.css) so the two codebases read
+         alike. Component classes only ever read the tokens above, never a
+         literal color, so era-switching is a single attribute swap. -- */
+      .era-theme { background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
+      .era-theme h1, .era-theme h2, .era-theme h3, .era-theme h4 {
+        font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+      }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        cursor: pointer; text-decoration: none;
+        font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+        font-size: 14px; line-height: 1.2; color: var(--color-text);
+        background: transparent; border: 1px solid var(--color-divider);
+        padding: var(--space-2) calc(var(--space-3) * 1.2); border-radius: 0;
+      }
+      .btn:disabled { opacity: .45; cursor: not-allowed; }
+      .btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+      .btn-primary:hover { background: var(--color-accent-600); }
+      .btn-secondary:hover { background: rgba(0, 0, 0, .05); }
+      .btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); border-color: transparent; }
+      .btn-icon { width: 36px; height: 36px; padding: 0; }
+      .btn-block { width: 100%; margin-top: var(--space-2); }
+      .tag { display: inline-flex; align-items: center; font-size: 11px; letter-spacing: .02em; padding: 3px 10px; border-radius: calc(var(--radius-md) * .75); }
+      .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+      .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+      .tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+      .card {
+        display: flex; flex-direction: column; gap: var(--space-2);
+        padding: var(--space-3); border-radius: 0; background: transparent; border: 1px solid var(--color-divider);
+      }
+      .card-kicker { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-accent); }
+      .card-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
+      .card-body { margin: 0; font-size: 13px; opacity: .8; flex: 1; }
+      .card-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; opacity: .55; }
+      .field > label { display: block; font-size: 12px; margin-bottom: 5px; opacity: .7; }
+      .input {
+        width: 100%; min-height: 36px; padding: 6px 10px; font: inherit; font-size: 14px;
+        color: var(--color-text); background: var(--color-surface);
+        border: 1px solid var(--color-divider); border-radius: var(--radius-md); box-sizing: border-box;
+      }
+      .input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+      .seg { display: inline-flex; overflow: hidden; border: 1px solid var(--color-divider); border-radius: var(--radius-md); }
+      .seg-opt { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; font-size: 13px; cursor: pointer; }
+      .seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+      .seg-opt input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+      .seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+      .nav { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-divider); }
+      .nav-brand { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; margin-right: auto; }
+      .nav a { color: inherit; text-decoration: none; font-size: 14px; }
+      .nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+      .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      .table th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .6; padding: var(--space-2); border-bottom: 1px solid var(--color-divider); }
+      .table td { padding: var(--space-2); border-bottom: 1px solid rgba(0, 0, 0, .08); }
+      .table tbody tr:hover { background: rgba(0, 0, 0, .04); }
+      .dialog-backdrop { position: fixed; inset: 0; display: grid; place-items: center; padding: var(--space-4); background: rgba(0, 0, 0, .5); }
+      .dialog {
+        width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+        padding: var(--space-4); border-radius: 0; background: var(--color-surface); box-shadow: var(--shadow-lg);
+      }
+      .dialog-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 20px; }
+      .dialog-body { font-size: 14px; opacity: .85; }
+      .dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+      .dialog-drag-handle { cursor: grab; }
+      .dialog-drag-handle:active { cursor: grabbing; }
+
+      /* Custom tooltips (never native `title` — see src/app/ui/tooltip.ts):
+         `[data-tooltip]` opens above-right of the trigger by default;
+         `[data-tooltip-below]` opens downward, for elements in a horizontal
+         row (phase bar segments, ribbon steps) where a rightward/upward
+         tooltip would collide with a neighbor. */
+      .app-tooltip {
+        position: fixed; z-index: 1000; max-width: 220px; padding: 7px 9px;
+        border-radius: var(--radius-md); background: var(--color-neutral-900);
+        color: #f5f5f8; font: 400 11.5px/1.35 var(--font-body, system-ui, sans-serif);
+        box-shadow: var(--shadow-md); pointer-events: none;
+      }
+      .app-tooltip[hidden] { display: none; }
+
+      /* -- shared primitives (src/app/ui/) -- */
+      .tab { font: 500 13px var(--font-body); padding: var(--space-2) var(--space-3); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; color: inherit; opacity: .65; }
+      .tab:hover { opacity: 1; }
+      .tab-active { opacity: 1; border-bottom-color: var(--color-accent); font-weight: 600; }
+      .meter { display: flex; flex-direction: column; gap: 3px; }
+      .meter-label { font-size: 11px; opacity: .7; }
+      .meter-track { height: 6px; border-radius: 3px; background: var(--color-neutral-100); overflow: hidden; }
+      .meter-fill { height: 100%; background: var(--color-accent); border-radius: inherit; transition: width .2s ease; }
+      .meter-fill-caution { background: var(--color-caution); }
+      .meter-fill-danger { background: var(--color-danger); }
+      .meter-fill-busy { width: 40%; animation: meter-sweep 1.1s ease-in-out infinite; }
+      @keyframes meter-sweep {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(250%); }
+      }
+      .stepper { display: inline-flex; align-items: center; gap: var(--space-2); }
+      .stepper-value { min-width: 1.5em; text-align: center; font-variant-numeric: tabular-nums; }
+      .empty-state { padding: var(--space-4); text-align: center; opacity: .6; font-style: italic; font-size: 12.5px; border: 1px dashed var(--color-divider); border-radius: var(--radius-md); }
+      .dialog-titlebar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+      .dialog-titlebar-actions { display: flex; gap: var(--space-1); }
+      .dialog-backdrop-pinned { place-items: start; padding-left: var(--pin-col1-offset, 16px); padding-top: var(--pin-top-offset, 16px); background: transparent; pointer-events: none; }
+      .dialog-backdrop-pinned .dialog { pointer-events: auto; }
+      .toast-stack { position: fixed; right: 16px; bottom: 16px; z-index: 40; display: flex; flex-direction: column-reverse; gap: 8px; pointer-events: none; }
+      .toast { pointer-events: auto; padding: 8px 14px; border-radius: var(--radius-md); background: var(--color-neutral-900); color: #f5f5f8; font-size: 12.5px; box-shadow: var(--shadow-md); }
+      .toast-warning { background: var(--color-caution); color: var(--color-neutral-900); }
+      .toast-danger { background: var(--color-danger); color: #fff; }
+      .toast-success { background: var(--color-accent); color: var(--color-bg); }
+
+      /* -- shared screen chrome (login / picker) -- */
+      .scr-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; box-sizing: border-box; }
+      .scr-card { background: rgba(20, 20, 20, 0.9); border: 1px solid #444; border-radius: 6px; padding: 20px 22px; width: 360px; max-width: 100%; }
+      .scr-title { margin: 0 0 4px; font-size: 18px; }
+      .scr-sub { margin: 0 0 16px; color: #aaa; font-size: 12px; }
+      .scr-form { display: flex; flex-direction: column; gap: 10px; }
+      .scr-field { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: #aaa; }
+      .scr-field input { background: #111; color: #eee; border: 1px solid #444; border-radius: 3px; padding: 5px 6px; font: inherit; }
+      .scr-btn { background: #2c3e50; color: #fff; border: 1px solid #45607a; border-radius: 3px; padding: 6px 12px; cursor: pointer; font: inherit; }
+      .scr-btn:hover { background: #34495e; }
+      .scr-btn:disabled { background: #333; color: #777; border-color: #444; cursor: not-allowed; }
+      .scr-link { background: none; border: none; color: #7db3e8; cursor: pointer; font: inherit; padding: 0 4px; }
+      .scr-link:hover { text-decoration: underline; }
+
+      /* -- nav-bar notification bell (Phase 4.8 sub-phase D.7) -- */
+      .notif-wrap { position: relative; display: inline-flex; margin-left: 4px; }
+      .notif-bell { display: inline-flex; align-items: center; background: none; border: none; color: inherit; cursor: pointer; padding: 2px; position: relative; }
+      .notif-bell:hover { color: #7db3e8; }
+      .notif-badge { position: absolute; top: -4px; right: -5px; min-width: 14px; height: 14px; padding: 0 3px; border-radius: 7px; background: #d9534f; color: #fff; font-size: 9px; line-height: 14px; text-align: center; font-weight: 700; }
+      .notif-dropdown { position: absolute; top: 100%; right: 0; margin-top: 6px; width: 280px; max-height: 340px; overflow-y: auto; background: rgba(24, 24, 24, .97); border: 1px solid #555; border-radius: 4px; z-index: 20; font-size: 12px; }
+      .notif-head { font-weight: 600; padding: 8px 10px; border-bottom: 1px solid #444; }
+      .notif-empty { padding: 10px; color: #888; font-style: italic; }
+      .notif-row { padding: 6px 10px; border-bottom: 1px solid rgba(255, 255, 255, .06); border-left: 3px solid transparent; }
+      .notif-row-success { border-left-color: #5cb85c; }
+      .notif-row-warning { border-left-color: #e0a53a; }
+      .notif-row-danger { border-left-color: #d9534f; }
+      .scr-error { color: #ffb3b3; font-size: 12px; }
+      .scr-error-block { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+      .scr-muted { color: #999; font-size: 12px; }
+      .scr-dev { margin-top: 16px; font-size: 12px; color: #888; }
+      .scr-dev summary { cursor: pointer; }
+      .scr-dev input { display: block; width: 100%; margin: 6px 0; background: #111; color: #eee; border: 1px solid #444; border-radius: 3px; padding: 4px 5px; box-sizing: border-box; font: inherit; }
+
+      /* -- campaign picker -- */
+      .pick-card { width: 440px; }
+      .pick-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+      .pick-identity { font-size: 12px; color: #999; }
+      .pick-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+      .pick-btn { display: block; width: 100%; text-align: left; background: #232323; border: 1px solid #3a3a3a; border-radius: 4px; padding: 8px 10px; cursor: pointer; color: inherit; font: inherit; }
+      .pick-btn:hover { background: #2b2b2b; border-color: #555; }
+      .pick-main { display: flex; align-items: center; gap: 8px; }
+      .pick-name { font-weight: 600; }
+      .pick-badge { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 6px; border-radius: 8px; border: 1px solid #555; color: #ccc; }
+      .pick-badge-active { border-color: #3f7d3f; color: #9fd39f; }
+      .pick-badge-setup { border-color: #7a6a3a; color: #d9c48c; }
+      .pick-badge-completed { border-color: #6a6a6a; color: #aaa; }
+      .pick-role { font-size: 12px; color: #9ab; margin-top: 3px; }
+      .pick-note { font-size: 11px; color: #d9c48c; padding: 2px 2px 0; }
+      .pick-note:empty { display: none; }
+
+      /* -- app shell (Phase 4.8 sub-phase B) --
+         Vertical stack of collapsible chrome bars over a 3-column play grid,
+         porting CTG's vertical-flex-stack/grid pattern with the same
+         `:empty{display:none}` collapse convention. Column widths (`--log-w`)
+         are set from JS (`map.ts`), not fixed here, since whether the
+         dispatches log (Phase C) has content is game-state-dependent. */
+      .play-shell { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+      #nav-bar, #play-topbar, #phase-bar, #turn-ribbon, #play-log { flex: none; }
+      #nav-bar:empty, #play-topbar:empty, #phase-bar:empty, #turn-ribbon:empty, #play-log:empty { display: none; }
+      /* The browser's own `[hidden]{display:none}` UA rule is attribute-only
+         specificity — it loses to `#play-log`'s own `display: flex` below (an
+         id selector outranks a bare attribute one). `map.ts`'s
+         `setLogCollapsed` toggles the `hidden` attribute to collapse the log,
+         so this needs its own id-scoped rule to actually win. */
+      #play-log[hidden] { display: none; }
+      #play-topbar { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-4); padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--color-divider); }
+      .topbar-meter { width: 180px; }
+      /* Explicit `grid-column` line assignments, not DOM-order auto-placement:
+         `#play-log:empty{display:none}` above removes it from the grid's
+         *auto-placed* item list entirely when there's nothing in it yet
+         (Phase C), which would otherwise shift `#board-col`/`#play-inspector`
+         left by one track. Pinning each to its own line keeps them fixed
+         regardless of whether the log column is present. */
+      #play-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: var(--log-w, 0px) 1fr var(--insp-w, 320px); }
+      #play-log { grid-column: 1; display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--color-divider); background: var(--color-surface); }
+      #board-col { grid-column: 2; position: relative; min-width: 0; overflow: hidden; background: var(--board-bg, #1b1b1b); }
+      #play-inspector { grid-column: 3; overflow-y: auto; border-left: 1px solid var(--color-divider); background: var(--color-surface); padding: var(--space-3); font-size: 12px; }
+
+      /* -- dispatches log (Phase 4.8 sub-phase C), `dispatchLog.ts`'s
+         `createDispatchLogPanel`. 3-part panel (header/chips fixed, body
+         scrolls, footer fixed) ported from CTG's `combatLog.ts` shell. -- */
+      /* Pinned just inside #board-col's own (clipped, `overflow:hidden`) box
+         rather than hung outside it via a negative transform — that clipped
+         instead of showing through #play-log underneath. */
+      .log-toggle {
+        position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+        z-index: 2; width: 16px; height: 44px; display: flex; align-items: center; justify-content: center;
+        background: var(--color-surface); border: 1px solid var(--color-divider); border-left: none;
+        border-radius: 0; color: var(--color-text); cursor: pointer; font-size: 13px; padding: 0;
+      }
+      .log-header { padding: var(--space-3) var(--space-3) 0; }
+      .log-header h3 { margin: 0; font-family: var(--font-heading); font-size: 14px; }
+      .log-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--color-divider); }
+      .log-chip { font-size: 11px; padding: 3px 9px; border-radius: 10px; border: 1px solid var(--color-divider); background: transparent; color: var(--color-text); opacity: .65; cursor: pointer; }
+      .log-chip-active { opacity: 1; background: var(--color-accent-100); border-color: var(--color-accent); color: var(--color-accent-800); }
+      .log-highlight-mine { display: flex; align-items: center; gap: 4px; font-size: 11px; margin-left: auto; opacity: .8; }
+      .log-body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--space-2) var(--space-3); }
+      .log-turn-group + .log-turn-group { margin-top: var(--space-2); }
+      .log-turn-banner { position: sticky; top: 0; z-index: 1; background: var(--color-surface); font: 700 10px var(--font-heading); letter-spacing: .06em; text-transform: uppercase; text-align: center; opacity: .7; padding: 3px 0; }
+      .log-row { display: flex; gap: 6px; padding: 4px 2px; font-size: 12px; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+      .log-row-clickable { cursor: pointer; }
+      .log-row-clickable:hover { background: var(--color-neutral-100); }
+      .log-row-kind { flex: none; font-weight: 700; opacity: .6; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; padding-top: 1px; }
+      .log-row-text { flex: 1; }
+      .log-footer { padding: var(--space-2) var(--space-3); }
+
+      /* phase bar (design handoff PHASES table, ported from CTG's battleTimeBar.ts) */
+      .phase-labels { display: flex; gap: 2px; margin-bottom: 3px; }
+      .phase-label { flex: 1 1 0%; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; text-align: center; font-family: var(--font-heading); font-weight: 700; opacity: .55; }
+      .phase-label-current { opacity: 1; color: var(--color-accent); }
+      .phase-label-done { opacity: .8; }
+      .phase-bar-track { position: relative; display: flex; height: 14px; border: 1px solid var(--color-divider); }
+      .phase-seg { border-right: 1px solid var(--color-bg); }
+      .phase-seg:last-child { border-right: none; }
+      .phase-seg-done { background: var(--color-accent-800); }
+      .phase-seg-current { background: var(--color-accent); }
+      .phase-seg-upcoming { background: var(--color-neutral-300); }
+      .phase-marker { position: absolute; top: -3px; bottom: -3px; width: 3px; margin-left: -1.5px; background: #fff; mix-blend-mode: difference; }
+      .phase-marker-urgent { background: var(--color-danger); mix-blend-mode: normal; }
+      .phase-chip { display: inline-block; margin-top: 4px; font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 2px 7px; border-radius: 8px; background: var(--color-neutral-100); color: var(--color-text); }
+      .phase-chip-urgent { background: var(--color-danger); color: #fff; }
+      .phase-chip-closed { opacity: .5; }
+
+      /* turn ribbon (design handoff RIB table, ported from CTG's turnOrderRibbon.ts) */
+      #turn-ribbon { display: flex; gap: 2px; padding: 4px var(--space-4); border-bottom: 1px solid var(--color-divider); }
+      .ribbon-step { font: 600 11px var(--font-heading); padding: 3px 9px; border: none; background: transparent; color: var(--color-text); white-space: nowrap; cursor: default; opacity: .55; }
+      .ribbon-step-done { opacity: .85; }
+      .ribbon-step-current { opacity: 1; background: var(--color-accent); color: var(--color-bg); font-weight: 700; }
+      .ribbon-step-automatic { opacity: .7; background: var(--color-neutral-100); }
+      .ribbon-step-clickable { cursor: pointer; }
+      .ribbon-step-clickable:hover { text-decoration: underline; }
+      .ribbon-step:disabled { cursor: default; }
+
+      /* -- map screen -- */
+      .map-canvas { position: absolute; inset: 0; }
+      .map-acting-wrap { display: inline-flex; gap: 6px; align-items: center; color: #9ab; }
+      .map-acting-as { background: #111; color: #eee; border: 1px solid #444; border-radius: 3px; padding: 2px 4px; font: inherit; }
+      .map-banners { position: absolute; left: 50%; transform: translateX(-50%); top: 12px; display: flex; flex-direction: column; gap: 6px; z-index: 5; }
+      .map-banner { display: flex; gap: 10px; align-items: center; padding: 6px 12px; border-radius: 4px; font-size: 12px; }
+      .map-banner-info { background: rgba(40,50,60,0.92); border: 1px solid #4a6070; color: #cfe3f2; }
+      .map-banner-error { background: #4a1f1f; border: 1px solid #7a4545; color: #ffd6d6; }
+
+      /* -- inspector (Part B; relocated into #play-inspector, sub-phase B) -- */
+      .insp-tabs { display: flex; margin: calc(var(--space-3) * -1) calc(var(--space-3) * -1) var(--space-2); border-bottom: 1px solid var(--color-divider); }
+      .insp-pane { font-size: 12px; }
+      .insp-breadcrumb { margin-bottom: 8px; font-size: 12px; }
+      .insp-oob-list { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+      .insp-oob-row { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; background: transparent; border: 1px solid var(--color-divider); border-radius: 3px; padding: 6px 8px; cursor: pointer; color: inherit; font: inherit; }
+      .insp-oob-row:hover { background: var(--color-neutral-100); }
+      .insp-oob-name { flex: 1; }
+      .insp-oob-echelon { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; opacity: .6; }
+      .insp-oob-chevron { opacity: .5; }
+      .insp-placeholder { margin: 0; color: #888; }
+      .insp-head { margin-bottom: 8px; }
+      .insp-rel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 5px; border: 1px solid #555; border-radius: 8px; color: #bbb; }
+      .insp-rel-commanded { border-color: #3f7d3f; color: #9fd39f; }
+      .insp-rel-enemy { border-color: #7a4545; color: #e2a3a3; }
+      .insp-pill-row { margin-bottom: 8px; }
+      .insp-pill { font-size: 11px; padding: 2px 8px; border-radius: 10px; border: 1px solid #555; }
+      .insp-pill-free { border-color: #3f7d3f; color: #9fd39f; }
+      .insp-pill-locked { border-color: #7a6a3a; color: #d9c48c; }
+      .insp-field { display: flex; justify-content: space-between; gap: 10px; padding: 2px 0; border-bottom: 1px solid #2a2a2a; }
+      .insp-field-label { color: #999; }
+      .insp-note { margin: 8px 0 0; color: #888; font-style: italic; font-size: 11px; }
+      .insp-strength { margin-top: 6px; }
+      .insp-units { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+      .insp-unit { display: flex; gap: 8px; align-items: baseline; font-size: 11px; padding: 1px 0; }
+      .insp-unit-name { flex: 1; color: #ccc; }
+      .insp-unit-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; color: #d9c48c; border: 1px solid #7a6a3a; border-radius: 6px; padding: 0 4px; }
+      .insp-actions { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+      .insp-action { background: #2c3e50; color: #fff; border: 1px solid #45607a; border-radius: 3px; padding: 5px 10px; cursor: pointer; font: inherit; opacity: 0.55; }
+      .insp-action-emph { opacity: 1; }
+      .insp-action:hover:not(:disabled) { background: #34495e; }
+      .insp-action:disabled { background: #333; color: #777; border-color: #444; cursor: not-allowed; }
+      .insp-multi { list-style: none; margin: 6px 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+      .insp-multi-btn { display: block; width: 100%; text-align: left; background: #232323; border: 1px solid #3a3a3a; border-radius: 3px; padding: 5px 8px; cursor: pointer; color: inherit; font: inherit; }
+      .insp-multi-btn:hover { background: #2b2b2b; border-color: #555; }
+      .insp-clear { display: inline-block; margin-top: 10px; }
+
+      .map-popover { position: absolute; left: 12px; bottom: 12px; z-index: 6; }
+      .map-popover[hidden] { display: none; }
+      .map-popover-card { width: 300px; max-height: 70vh; overflow-y: auto; background: rgba(24,24,24,0.96); border: 1px solid #555; border-radius: 4px; padding: 12px; font-size: 12px; }
+      .map-popover-head { font-weight: 600; margin-bottom: 6px; }
+
+      /* -- map HUD chrome (Phase 4.8 sub-phase D.6) -- */
+      .map-hud { position: absolute; z-index: 6; background: rgba(24, 24, 24, .82); border: 1px solid #555; border-radius: 4px; color: #e8e8e8; font-size: 11px; }
+      .map-hud-zoom { right: 12px; bottom: 12px; display: flex; flex-direction: column; padding: 3px; gap: 3px; }
+      .map-hud-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .08); border: 1px solid #666; border-radius: 3px; color: inherit; font-size: 15px; line-height: 1; cursor: pointer; }
+      .map-hud-btn:hover { background: rgba(255, 255, 255, .18); }
+      .map-hud-layers { right: 12px; top: 12px; display: flex; flex-direction: column; gap: 3px; padding: 7px 9px; }
+      .map-hud-layer { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+      .map-hud-legend { left: 12px; top: 12px; display: flex; flex-direction: column; gap: 2px; padding: 7px 9px; opacity: .9; }
+
+      /* -- order popover / directive form (Part C) -- */
+      .opop-body { display: flex; flex-direction: column; gap: 8px; }
+      .opop-field { display: flex; flex-direction: column; gap: 3px; }
+      .opop-field-label { color: #999; }
+      .opop-input { background: #111; color: #eee; border: 1px solid #444; border-radius: 3px; padding: 4px 5px; font: inherit; box-sizing: border-box; width: 100%; }
+      .opop-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+      .opop-num { width: 64px; }
+      .opop-note { margin: 2px 0 0; color: #888; font-style: italic; font-size: 11px; }
+      .opop-error { margin: 6px 0 0; color: #ffb3b3; font-size: 12px; }
+      .opop-route-readout { color: #cfe3f2; }
+      .opop-unit-list { display: flex; flex-direction: column; gap: 3px; max-height: 140px; overflow-y: auto; border: 1px solid #333; border-radius: 3px; padding: 4px 6px; }
+      .opop-unit { display: flex; gap: 6px; align-items: center; }
+      .opop-confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: #4a3a1f; border: 1px solid #7a6a3a; border-radius: 3px; padding: 6px 8px; margin-bottom: 8px; }
+      .opop-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+
+      /* -- orders review panel (Phase 4.8 sub-phase D.1) -- */
+      .orv-body { display: flex; flex-direction: column; gap: var(--space-2); }
+      .orv-table-wrap { max-height: 60vh; overflow-y: auto; }
+      .orv-order-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+      .orv-forage { width: 64px; }
+      .orv-actions-cell { text-align: right; white-space: nowrap; }
+
+      /* -- battle flow panel (Phase 4.8 sub-phase D.2) -- */
+      .bfl-body { display: flex; flex-direction: column; gap: var(--space-3); max-height: 70vh; overflow-y: auto; }
+      .bfl-card { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; }
+      .bfl-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .bfl-card-title { font-weight: 600; }
+      .bfl-owner-actions { display: flex; gap: var(--space-2); }
+      .bfl-posture { display: flex; flex-direction: column; gap: 4px; }
+      .bfl-posture-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .bfl-result-form { display: flex; flex-direction: column; gap: var(--space-2); }
+      .bfl-stands { width: 64px; }
+      .bfl-result-readout { color: #cfe3f2; font-size: 12px; }
+      .bfl-result-list { margin: 4px 0 0; padding-left: 18px; }
+
+      /* -- comms & intel panel (Phase 4.8 sub-phase D.3) -- */
+      .cmi-body { display: flex; flex-direction: column; gap: var(--space-2); max-height: 70vh; overflow-y: auto; }
+      .cmi-heading { margin: var(--space-2) 0 0; font-size: 13px; }
+      .cmi-heading:first-child { margin-top: 0; }
+      .cmi-list { display: flex; flex-direction: column; }
+      .cmi-row { padding: 6px 2px; border-bottom: 1px solid rgba(0, 0, 0, .06); font-size: 12px; }
+      .cmi-row:hover { background: var(--color-neutral-100); }
+      .cmi-row-main { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+      .cmi-row-name { font-weight: 600; }
+      .cmi-row-sub { margin-top: 2px; color: #888; }
+      .cmi-row-turn { flex: none; font-weight: 700; opacity: .6; font-size: 10px; }
+
+      /* -- supply/siege/victory readouts panel (Phase 4.8 sub-phase D.4) -- */
+      .rdo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--space-3); max-height: 70vh; overflow-y: auto; }
+      .rdo-card { display: flex; flex-direction: column; gap: 8px; padding: 12px; }
+      .rdo-card-title { margin: 0; font-size: 13px; }
+      .rdo-siege { display: flex; flex-direction: column; gap: 3px; padding: 4px 0; border-top: 1px solid rgba(0, 0, 0, .06); }
+      .rdo-siege:first-of-type { border-top: none; }
+      .rdo-siege-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; }
+      .rdo-victory-end { margin: 2px 0 0; font-size: 12px; font-weight: 600; }
+      .rdo-obj-list { margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+      .rdo-obj { display: flex; align-items: baseline; gap: 5px; font-size: 12px; }
+
+      /* -- turn report modal (Phase 4.8 sub-phase D.5) -- */
+      .trp-body { display: flex; flex-direction: column; gap: var(--space-2); max-height: 70vh; overflow-y: auto; }
+      .trp-mine-toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+      .trp-group { display: flex; flex-direction: column; gap: 2px; }
+      .trp-group-head { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; opacity: .6; margin-top: 4px; }
+      .trp-row { font-size: 12px; padding: 2px 0; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+
+      .map-route-hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 7; background: rgba(40,50,60,0.95); border: 1px solid #4a6070; color: #cfe3f2; padding: 6px 12px; border-radius: 4px; font-size: 12px; }
+      .map-route-hint[hidden] { display: none; }
+    </style>
+    <script type="module" crossorigin src="./assets/main-Dcujm98S.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/mapRenderer-CT0WX2jQ.js">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
