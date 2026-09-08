@@ -61,10 +61,22 @@
       .sa-map-canvas { flex: 1; background: var(--board-bg); border: 1px solid var(--color-divider); }
       .sa-map-side { width: 280px; overflow-y: auto; }
       .sa-coord-display { font-family: monospace; font-size: 12px; opacity: .8; margin: 0 0 10px; }
+      /* Settlement name + type shown next to the hovered hex coordinate — 2pt
+         larger than the monospace coordinate readout it trails. */
+      .sa-coord-settlement { font-size: 14px; }
       .sa-import-grid { font-family: monospace; font-size: 11px; white-space: pre; min-height: 100px; resize: vertical; }
+
+      /* Collapsible wrapper around the map tab's bulk-text importers. */
+      .sa-rollup { margin-bottom: 14px; }
+      .sa-rollup > summary {
+        cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: .7;
+        padding: 6px 0; user-select: none;
+      }
+      .sa-rollup[open] > summary { margin-bottom: 8px; }
+      .sa-rollup > .sa-section:last-child { margin-bottom: 0; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-df65QggV.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-C66wU-um.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-BO5NtYIv.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-cumH0QI1.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-NOCYG6t2.css">
   </head>
   <body>
