@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Campaign Staff Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3ecdb;
+    --surface: #fffcf4;
+    --surface-raised: #ffffff;
+    --ink: #2a2318;
+    --ink-soft: #6b5f49;
+    --ink-faint: #948868;
+    --accent: #7c2d2d;
+    --accent-soft: #a9524f;
+    --accent-2: #2e4a5e;
+    --line: #ddd0b0;
+    --line-strong: #c9b98c;
+    --gold: #93701f;
+    --chip-bg: #ece2c8;
+    --tag-optional: #5c6e4a;
+    --shadow: 0 1px 2px rgba(42, 35, 24, 0.06), 0 6px 20px -8px rgba(42, 35, 24, 0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17130e;
+      --surface: #211b13;
+      --surface-raised: #271f16;
+      --ink: #ecdfc2;
+      --ink-soft: #b7a883;
+      --ink-faint: #7d7358;
+      --accent: #e0897a;
+      --accent-soft: #c46b5e;
+      --accent-2: #8db0c9;
+      --line: #3b3221;
+      --line-strong: #4d422a;
+      --gold: #d3ac5c;
+      --chip-bg: #2c2417;
+      --tag-optional: #9db07f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17130e;
+    --surface: #211b13;
+    --surface-raised: #271f16;
+    --ink: #ecdfc2;
+    --ink-soft: #b7a883;
+    --ink-faint: #7d7358;
+    --accent: #e0897a;
+    --accent-soft: #c46b5e;
+    --accent-2: #8db0c9;
+    --line: #3b3221;
+    --line-strong: #4d422a;
+    --gold: #d3ac5c;
+    --chip-bg: #2c2417;
+    --tag-optional: #9db07f;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -10px rgba(0, 0, 0, 0.6);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 {
+    font-family: "Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
+    font-weight: 400;
+    color: var(--ink);
+    text-wrap: balance;
+    margin: 0;
+  }
+  p { margin: 0 0 1em; max-width: 68ch; }
+  a { color: var(--accent); }
+  code, .mono { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    border-bottom: 1px solid var(--line-strong);
+    background: linear-gradient(180deg, var(--surface), var(--bg));
+  }
+  .masthead-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+  }
+  .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.9em;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2em;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .masthead h1 {
+    font-size: clamp(2.2rem, 4.2vw, 3rem);
+    letter-spacing: 0.01em;
+  }
+  .masthead .dek {
+    margin-top: 0.9rem;
+    color: var(--ink-soft);
+    font-size: 1.08rem;
+    font-style: italic;
+    max-width: 56ch;
+  }
+  .masthead-meta {
+    margin-top: 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem 2.4rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    padding-top: 1rem;
+  }
+  .masthead-meta b { color: var(--ink-soft); font-weight: 600; display: block; letter-spacing: 0.04em; margin-top: 0.25em; font-size: 0.78rem; }
+
+  /* ---------- Sticky nav ---------- */
+  nav.toc {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(6px);
+  }
+  .toc-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0.6rem 1.5rem;
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .toc-inner a {
+    flex: 0 0 auto;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    padding: 0.45em 0.85em;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .toc-inner a:hover { border-color: var(--line-strong); color: var(--ink); }
+
+  /* ---------- Body layout ---------- */
+  main { max-width: 880px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  .lede {
+    padding: 2.4rem 0 1rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2.6rem;
+  }
+  .lede p { font-size: 1.12rem; max-width: 62ch; }
+
+  /* Pipeline overview */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin: 1.8rem 0 3rem;
+    box-shadow: var(--shadow);
+  }
+  .pipeline > div {
+    background: var(--surface);
+    padding: 1.3rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pipeline .num {
+    font-family: "Libre Caslon Display", serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .pipeline .stage-name { font-weight: 700; font-size: 0.98rem; }
+  .pipeline .stage-tab {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+  }
+  .pipeline .stage-desc { font-size: 0.87rem; color: var(--ink-soft); margin: 0; }
+
+  @media (max-width: 760px) {
+    .pipeline { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .pipeline { grid-template-columns: 1fr; }
+  }
+
+  /* Stage sections */
+  .stage {
+    scroll-margin-top: 3.4rem;
+    margin-bottom: 4rem;
+  }
+  .stage-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .stage-head .num {
+    font-family: "Libre Caslon Display", serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+  .stage-head h2 { font-size: 1.65rem; }
+  .stage-tabline {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin: 0.5rem 0 1.2rem;
+  }
+  .stage-tabline .arrow { color: var(--ink-faint); }
+
+  h3.sub {
+    font-size: 1.12rem;
+    font-style: italic;
+    color: var(--ink);
+    margin: 2rem 0 0.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .field-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.9rem 0 0.4rem;
+    font-size: 0.95rem;
+  }
+  .field-table th {
+    text-align: left;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    font-weight: 500;
+    padding: 0 0 0.5em;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .field-table td {
+    padding: 0.65em 0.8em 0.65em 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .field-table tr:last-child td { border-bottom: none; }
+  .field-table td:first-child { width: 15em; white-space: normal; }
+
+  .field-name {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--accent-2);
+    display: inline;
+  }
+  .field-type {
+    display: inline-block;
+    margin-left: 0.5em;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.63rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+  }
+  .field-table td.desc { color: var(--ink-soft); }
+  .field-table td.desc b { color: var(--ink); font-weight: 600; }
+
+  /* Details / progressive disclosure */
+  details.tables {
+    margin: 0.6rem 0 1.6rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+  details.tables > summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.9rem 1.1rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+  }
+  details.tables > summary::-webkit-details-marker { display: none; }
+  details.tables > summary::after {
+    content: "expand ▸";
+    color: var(--ink-faint);
+    font-size: 0.7rem;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+  details.tables[open] > summary::after { content: "collapse ▾"; }
+  details.tables > summary .tag {
+    color: var(--tag-optional);
+    font-weight: 500;
+  }
+  details.tables .body { padding: 0.2rem 1.1rem 1.2rem; }
+  details.tables .body > p:first-child { margin-top: 0.4rem; }
+
+  .note {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 0.9em 1.1em;
+    margin: 1.2rem 0;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    box-shadow: var(--shadow);
+  }
+  .note b { color: var(--ink); }
+
+  .warn {
+    background: var(--surface);
+    border-left: 3px solid var(--gold);
+    padding: 0.9em 1.1em;
+    margin: 1.2rem 0;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    box-shadow: var(--shadow);
+  }
+  .warn b { color: var(--accent); }
+
+  .required-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.6rem 0 1.4rem;
+  }
+  .required-list span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    background: var(--chip-bg);
+    color: var(--ink);
+    padding: 0.35em 0.7em;
+    border-radius: 3px;
+    border: 1px solid var(--line-strong);
+  }
+
+  ul.plain { margin: 0 0 1em; padding-left: 1.3em; }
+  ul.plain li { margin-bottom: 0.5em; color: var(--ink-soft); }
+  ul.plain li b { color: var(--ink); }
+
+  footer {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2.4rem 1.5rem 3rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-size: 0.82rem;
+  }
+
+  .scroll-x { overflow-x: auto; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Campaign Author — Field Reference</div>
+    <h1>Campaign Staff Handbook</h1>
+    <p class="dek">How the four setup tabs turn a blank hex grid into a playable campaign — what each field controls, and what it stands for on the ground.</p>
+    <div class="masthead-meta">
+      <div>Audience<b>Game Masters / Campaign Authors</b></div>
+      <div>Scope<b>New-campaign setup only</b></div>
+      <div>Source of truth<b>In-app tooltips (hover any field)</b></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#overview">Overview</a>
+    <a href="#stage-1">I · Campaign Settings</a>
+    <a href="#stage-2">II · Campaign Map</a>
+    <a href="#stage-3">III · Campaign OB</a>
+    <a href="#stage-4">IV · New Campaign</a>
+    <a href="#after">After Creation</a>
+  </div>
+</nav>
+
+<main>
+
+  <section id="overview" class="lede">
+    <p>A campaign is assembled in four passes, each on its own tab, each building on the last. Think of it as writing the standing orders for a theatre of war before a single formation moves: first you fix the rules of the theatre, then you draw its ground, then you muster the armies that will fight over it, and only then do you actually open a campaign for players to join.</p>
+  </section>
+
+  <div class="pipeline">
+    <div>
+      <span class="num">I</span>
+      <span class="stage-name">Campaign Settings</span>
+      <span class="stage-tab">Campaign Scenarios ▸ Campaign Settings</span>
+      <p class="stage-desc">Write the rulebook: map scale, march rates, weather, supply, sieges, courier risk, victory conditions.</p>
+    </div>
+    <div>
+      <span class="num">II</span>
+      <span class="stage-name">Campaign Map</span>
+      <span class="stage-tab">Campaign Scenarios ▸ Campaign Map</span>
+      <p class="stage-desc">Paint the ground the rulebook will be applied to: terrain, roads, rivers, towns, depots.</p>
+    </div>
+    <div>
+      <span class="num">III</span>
+      <span class="stage-name">Campaign OB</span>
+      <span class="stage-tab">Campaign Scenarios ▸ Campaign OB</span>
+      <p class="stage-desc">Muster the starting order of battle: formations, units and leaders, ready to be copied into any campaign.</p>
+    </div>
+    <div>
+      <span class="num">IV</span>
+      <span class="stage-name">New Campaign</span>
+      <span class="stage-tab">Start or Resume Campaign</span>
+      <p class="stage-desc">Stamp out a live campaign from a finished template and set its clock running.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Why the split?</b> Stages I–III author a reusable <b>Campaign Scenario File (CSF)</b> — a template of rules, map and starting order of battle. Stage IV then takes a snapshot of that template's map and OB and turns it into an actual, playable campaign. One CSF can be reused to launch many separate campaigns; editing a CSF after a campaign has been created from it does not retroactively change that campaign.
+  </div>
+
+  <!-- ================= STAGE 1 ================= -->
+  <section id="stage-1" class="stage">
+    <div class="stage-head"><span class="num">I</span><h2>Campaign Settings</h2></div>
+    <p class="stage-tabline">Campaign Scenarios <span class="arrow">▸</span> Campaign Settings — authors a Campaign Scenario File (CSF)</p>
+    <p>This tab is the rulebook for the whole theatre: how big a hex is in real kilometres, how fast troops march across it, how the seasons and terrain slow them down, how armies stay fed, how sieges grind on, how orders and messages travel the chain of command, and how the war is ultimately scored. Everything here becomes the physics of the campaigns stamped from it.</p>
+
+    <h3 class="sub">Scenario — the essentials</h3>
+    <table class="field-table">
+      <tr><th>Field</th><th>What it represents</th></tr>
+      <tr><td><span class="field-name">Name</span></td><td class="desc">The CSF's own name, shown later in the CSF picker when someone creates a campaign.</td></tr>
+      <tr><td><span class="field-name">Ground scale</span><span class="field-type">km / hex</span></td><td class="desc">Real-world distance one hex covers. This single number is what turns "movement rate" and "sighting distance" into a real geography — halve it and the same map becomes twice as large in ground truth.</td></tr>
+      <tr><td><span class="field-name">Turn length</span><span class="field-type">hours</span></td><td class="desc">In-world hours that pass per campaign turn. Combined with ground scale, this is what a "day's march" or a "forced march" actually means in hexes.</td></tr>
+      <tr><td><span class="field-name">Max supply range</span><span class="field-type">hexes</span></td><td class="desc">How far a hex may sit from a friendly supply source (depot, settlement, supply point) and still count as in-supply — the practical reach of a 19th-century supply line before wagons can't make the round trip in a turn.</td></tr>
+      <tr><td><span class="field-name">Road move cost</span><span class="field-type">×</span></td><td class="desc">The made road's own march speed, overriding whatever the hex's terrain would normally cost. Below 1 means marching on the road is faster than crossing open country — this is what makes road networks worth fighting for.</td></tr>
+      <tr><td><span class="field-name">River crossing cost</span><span class="field-type">×</span></td><td class="desc">Extra cost added when a march crosses a river edge — the time lost finding a ford, queuing at a bridge, or throwing a pontoon.</td></tr>
+      <tr><td><span class="field-name">River blocks without crossing</span><span class="field-type">toggle</span></td><td class="desc">On: an unbridged river is a hard stop — no ford, no crossing, full stop, like a river in flood. Off: it's merely slow and costly (see the multiplier above), like a river that can always be waded or swum at a price.</td></tr>
+      <tr><td><span class="field-name">Supply points enabled</span><span class="field-type">toggle</span></td><td class="desc">Master switch for mobile field depots — temporary supply dumps a formation can plant away from a town. Off: armies live only off fixed settlements and depots, the way a very short campaign or besieged theatre might.</td></tr>
+      <tr><td><span class="field-name">Establish supply point cost</span><span class="field-type">stands</span></td><td class="desc">The manpower (in stands) a formation must spend from its own strength to build a field depot — digging in the wagon park and guarding it costs troops.</td></tr>
+      <tr><td><span class="field-name">Max supply points per side</span></td><td class="desc">A cap on how many field depots each side can have running at once, representing finite wagon trains and engineer effort.</td></tr>
+      <tr><td><span class="field-name">Horizontal comms rate</span><span class="field-type">hexes / turn</span></td><td class="desc">How fast a message travels sideways — between two formations of the same level, neither reporting up to the other. Represents liaison riders working corps-to-corps rather than through headquarters.</td></tr>
+      <tr><td><span class="field-name">Horizontal contact range</span><span class="field-type">hexes</span></td><td class="desc">How far apart two friendly formations can be and still talk to each other directly, without routing the message up and back down the chain of command.</td></tr>
+      <tr><td><span class="field-name">Command order compliance</span><span class="field-type">toggle</span></td><td class="desc">On: a subordinate can fail to fully carry out a command order and takes a strength penalty for it — friction, a commander reading the situation differently than his superior intended. Off: every order is obeyed to the letter.</td></tr>
+      <tr><td><span class="field-name">Disobedience wastage</span><span class="field-type">%</span></td><td class="desc">The strength a formation loses when it falls short of full compliance (only matters if the toggle above is on).</td></tr>
+      <tr><td><span class="field-name">Courier search penalty</span><span class="field-type">×</span></td><td class="desc">Extra time a rider spends hunting down a recipient who is on the move rather than sitting still — a moving target is harder to find than a fixed headquarters.</td></tr>
+    </table>
+
+    <details class="tables">
+      <summary>Movement &amp; sighting <span class="tag">by unit class and terrain</span></summary>
+      <div class="body">
+        <p>These tables are where "an army corps of foot" and "a screen of light cavalry" actually become different things on the map — every value is keyed to a <b>movement class</b>: infantry, heavy cavalry, light cavalry, irregular cavalry, artillery, and supply trains.</p>
+
+        <h3 class="sub">Movement rates<span class="field-type">hexes / turn, per class</span></h3>
+        <table class="field-table">
+          <tr><th>Class</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Infantry</span></td><td class="desc">Base movement allowance for infantry, before terrain, road/river, and weather modifiers are applied per hex.</td></tr>
+          <tr><td><span class="field-name">Heavy cavalry</span></td><td class="desc">Base movement allowance for heavy cavalry, before terrain, road/river, and weather modifiers are applied per hex.</td></tr>
+          <tr><td><span class="field-name">Light cavalry</span></td><td class="desc">Base movement allowance for light cavalry, before terrain, road/river, and weather modifiers are applied per hex.</td></tr>
+          <tr><td><span class="field-name">Irregular cavalry</span></td><td class="desc">Base movement allowance for irregular cavalry, before terrain, road/river, and weather modifiers are applied per hex.</td></tr>
+          <tr><td><span class="field-name">Artillery</span></td><td class="desc">Base movement allowance for artillery, before terrain, road/river, and weather modifiers are applied per hex.</td></tr>
+          <tr><td><span class="field-name">Supply train</span></td><td class="desc">Base movement allowance for supply trains, before terrain, road/river, and weather modifiers are applied per hex.</td></tr>
+        </table>
+
+        <h3 class="sub">Sighting distances<span class="field-type">hexes, per class</span></h3>
+        <table class="field-table">
+          <tr><th>Class</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Infantry</span></td><td class="desc">Detection radius, in hexes, for a formation whose longest-ranged unit is infantry.</td></tr>
+          <tr><td><span class="field-name">Heavy cavalry</span></td><td class="desc">Detection radius, in hexes, for a formation whose longest-ranged unit is heavy cavalry. Cavalry's greater range reflects mounted patrols scouting out around the formation, beyond what the formation itself can see directly.</td></tr>
+          <tr><td><span class="field-name">Light cavalry</span></td><td class="desc">Detection radius, in hexes, for a formation whose longest-ranged unit is light cavalry. Cavalry's greater range reflects mounted patrols scouting out around the formation, beyond what the formation itself can see directly.</td></tr>
+          <tr><td><span class="field-name">Irregular cavalry</span></td><td class="desc">Detection radius, in hexes, for a formation whose longest-ranged unit is irregular cavalry. Cavalry's greater range reflects mounted patrols scouting out around the formation, beyond what the formation itself can see directly.</td></tr>
+          <tr><td><span class="field-name">Artillery</span></td><td class="desc">Detection radius, in hexes, for a formation whose longest-ranged unit is artillery.</td></tr>
+          <tr><td><span class="field-name">Supply train</span></td><td class="desc">Detection radius, in hexes, for a formation whose longest-ranged unit is a supply train.</td></tr>
+        </table>
+        <p>A formation's sighting distance is set by its <b>single longest-ranged</b> constituent unit, not an average — one cavalry squadron attached to an otherwise all-infantry formation is enough to give the whole formation cavalry-grade sighting.</p>
+
+        <h3 class="sub">Terrain movement cost<span class="field-type">%, per terrain</span></h3>
+        <table class="field-table">
+          <tr><th>Terrain</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Open</span></td><td class="desc">Movement penalty for entering an open hex, as a fraction from 0 to 1. 0 = no impact; 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Forest</span></td><td class="desc">Movement penalty for entering a forest hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Hills</span></td><td class="desc">Movement penalty for entering a hills hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Marsh</span></td><td class="desc">Movement penalty for entering a marsh hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Mountains</span></td><td class="desc">Movement penalty for entering a mountains hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Urban</span></td><td class="desc">Movement penalty for entering an urban hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Walled village</span></td><td class="desc">Movement penalty for entering a walled village hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable. A road edge overrides this with Road move cost ×.</td></tr>
+          <tr><td><span class="field-name">Water</span></td><td class="desc">Movement penalty for entering a water hex, as a fraction from 0 to 1. 0 = no impact (same as open); 0.5 = doubles the cost; 1 = impassable (the normal setting for water, absent a bridge/ford edge). A road edge overrides this with Road move cost ×.</td></tr>
+        </table>
+
+        <h3 class="sub">Strategic detection<span class="field-type">optional — blank = engine defaults</span></h3>
+        <p>This is fog-of-war tuning, separate from the plain <b>Sighting distances</b> table above: it decides which terrain actually <i>conceals</i> troops, how much high ground helps a spotter, and how sighting degrades from a full, "I count two brigades of infantry" identification down to a partial "something is moving in that treeline" contact.</p>
+        <p><b>Leave the whole group blank</b> and the engine falls back to sensible defaults (spelled out per field below) — you don't have to fill in every value just to touch one.</p>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Open blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, open on the traced sightline blocks it and conceals a formation standing in it. If none of the eight "blocks LOS" toggles below are set, the engine defaults to forest, urban, and walled village only — checking any one of these toggles replaces that whole default set with exactly the terrain types you've checked, it does not add to it.</td></tr>
+          <tr><td><span class="field-name">Forest blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, forest on the traced sightline blocks it and conceals a formation standing in it (tighter bands, no hill bonus). Part of the engine's default blocking set if nothing here is checked.</td></tr>
+          <tr><td><span class="field-name">Hills blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, hills on the traced sightline blocks it and conceals a formation standing in it — note this is separate from the hill spotting bonus below, which is about the <i>observer's</i> elevation, not the target's.</td></tr>
+          <tr><td><span class="field-name">Marsh blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, marsh on the traced sightline blocks it and conceals a formation standing in it.</td></tr>
+          <tr><td><span class="field-name">Mountains blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, mountains on the traced sightline blocks it and conceals a formation standing in it.</td></tr>
+          <tr><td><span class="field-name">Urban blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, urban on the traced sightline blocks it and conceals a formation standing in it. Part of the engine's default blocking set if nothing here is checked.</td></tr>
+          <tr><td><span class="field-name">Walled village blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, walled village on the traced sightline blocks it and conceals a formation standing in it. Part of the engine's default blocking set if nothing here is checked.</td></tr>
+          <tr><td><span class="field-name">Water blocks LOS</span><span class="field-type">toggle</span></td><td class="desc">When set, water on the traced sightline blocks it and conceals a formation standing in it.</td></tr>
+          <tr><td><span class="field-name">Hill spotting bonus</span><span class="field-type">hexes</span></td><td class="desc">Added to both the full and partial detection bands when the observer stands on hills or mountains; such an observer also sees over blocking terrain of equal-or-lower elevation tier (hills counts as tier 1, mountains as tier 2). Left blank/0: high ground gives no edge at all — a formation on a hilltop sees exactly as far as one on flat ground, and a tree line blocks it exactly the same way.</td></tr>
+          <tr><td><span class="field-name">Partial sight range</span><span class="field-type">×</span></td><td class="desc">The wider "presence only" detection band, as a multiple of the full-identification band. Blank ⇒ 1.5×. This only widens the "something's out there" warning radius — it never changes the full-identification range itself.</td></tr>
+          <tr><td><span class="field-name">Obscured full band</span><span class="field-type">hexes</span></td><td class="desc">Fixed full-identification range used instead of the normal formula when the TARGET formation stands in blocking terrain (forest/urban/etc, per the toggles above). The hill bonus never applies here — even a spotter on a mountain can't identify a formation hiding in cover beyond this fixed distance. Blank ⇒ 1 hex.</td></tr>
+          <tr><td><span class="field-name">Obscured partial band</span><span class="field-type">hexes</span></td><td class="desc">Fixed "presence only" range used the same way, when the target formation stands in blocking terrain. Blank ⇒ 2 hexes.</td></tr>
+          <tr><td><span class="field-name">Static observer sight</span><span class="field-type">hexes</span></td><td class="desc">Full-identification range for a static spotter — a friendly-controlled settlement or supply point, which scouts every turn as a fixed watchtower regardless of any formation standing there. Its partial band is this × Partial sight range ×. Blank ⇒ falls back to the Infantry sighting distance converted to hexes, or 2 hexes if that is also unset.</td></tr>
+        </table>
+        <div class="note"><b>Selected vs. left blank, in practice:</b> leaving every strategic-detection field blank plays with the engine's built-in fog of war (forest/urban/walled-village conceal troops, no hill advantage, tight 1–2 hex bands against hidden targets). Filling in values lets you loosen or tighten that fog for a specific theatre — e.g. raise the hill spotting bonus for an open, hilly map where high ground should matter more, or add hills/marsh to the blocking list for a scenario with heavy undergrowth. The one toggle to watch: checking even a single "blocks LOS" box turns off the engine's defaults entirely and uses only what you've checked, so if you want forest/urban/walled village to keep blocking <i>and</i> add another terrain, check all of them together.</div>
+      </div>
+    </details>
+
+    <details class="tables">
+      <summary>Weather profile <span class="tag">seasonal conditions</span></summary>
+      <div class="body">
+        <p>Each weather definition is a named condition — mud season, snow, a heat wave, clear skies — that can be rolled for a turn. This is what makes a campaign that opens in June play differently from one that opens in December.</p>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Id</span></td><td class="desc">Identifier for this weather state, referenced in turn-resolution logs.</td></tr>
+          <tr><td><span class="field-name">Wastage</span><span class="field-type">×</span></td><td class="desc">Multiplier on attrition rolls while this weather is active.</td></tr>
+          <tr><td><span class="field-name">Comms</span><span class="field-type">×</span></td><td class="desc">Multiplier on courier and message speed while this weather is active (below 1 = slower).</td></tr>
+        </table>
+
+        <h3 class="sub">Movement multiplier<span class="field-type">per class, below 1 = slower going</span></h3>
+        <table class="field-table">
+          <tr><th>Class</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Infantry</span></td><td class="desc">Multiplier on infantry movement allowance while this weather is active (below 1 = slower going).</td></tr>
+          <tr><td><span class="field-name">Heavy cavalry</span></td><td class="desc">Multiplier on heavy cavalry movement allowance while this weather is active (below 1 = slower going).</td></tr>
+          <tr><td><span class="field-name">Light cavalry</span></td><td class="desc">Multiplier on light cavalry movement allowance while this weather is active (below 1 = slower going).</td></tr>
+          <tr><td><span class="field-name">Irregular cavalry</span></td><td class="desc">Multiplier on irregular cavalry movement allowance while this weather is active (below 1 = slower going).</td></tr>
+          <tr><td><span class="field-name">Artillery</span></td><td class="desc">Multiplier on artillery movement allowance while this weather is active (below 1 = slower going).</td></tr>
+          <tr><td><span class="field-name">Supply train</span></td><td class="desc">Multiplier on supply train movement allowance while this weather is active (below 1 = slower going).</td></tr>
+        </table>
+
+        <h3 class="sub">Probability by month<span class="field-type">0–1, per calendar month</span></h3>
+        <table class="field-table">
+          <tr><th>Month</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Jan</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in January.</td></tr>
+          <tr><td><span class="field-name">Feb</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in February.</td></tr>
+          <tr><td><span class="field-name">Mar</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in March.</td></tr>
+          <tr><td><span class="field-name">Apr</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in April.</td></tr>
+          <tr><td><span class="field-name">May</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in May.</td></tr>
+          <tr><td><span class="field-name">Jun</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in June.</td></tr>
+          <tr><td><span class="field-name">Jul</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in July.</td></tr>
+          <tr><td><span class="field-name">Aug</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in August.</td></tr>
+          <tr><td><span class="field-name">Sep</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in September.</td></tr>
+          <tr><td><span class="field-name">Oct</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in October.</td></tr>
+          <tr><td><span class="field-name">Nov</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in November.</td></tr>
+          <tr><td><span class="field-name">Dec</span></td><td class="desc">Chance (0–1) this weather is rolled for a turn falling in December.</td></tr>
+        </table>
+        <p>Multiple weather definitions can each carry a nonzero probability for the same month — the turn engine rolls against them to decide which (if any) is active. A CSF with an empty weather profile plays out under no weather effects at all.</p>
+      </div>
+    </details>
+
+    <details class="tables">
+      <summary>Wastage <span class="tag">attrition, sickness &amp; stragglers</span></summary>
+      <div class="body">
+        <p>The grinding, non-combat loss of strength every marching army suffers, tuned per <b>morale grade</b> (3, poor, through 7, elite).</p>
+
+        <h3 class="sub">Wastage % range, by morale grade</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Grade 3 — Min %</span></td><td class="desc">Grade 3 troops: low end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 3 — Max %</span></td><td class="desc">Grade 3 troops: high end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 4 — Min %</span></td><td class="desc">Grade 4 troops: low end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 4 — Max %</span></td><td class="desc">Grade 4 troops: high end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 5 — Min %</span></td><td class="desc">Grade 5 troops: low end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 5 — Max %</span></td><td class="desc">Grade 5 troops: high end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 6 — Min %</span></td><td class="desc">Grade 6 troops: low end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 6 — Max %</span></td><td class="desc">Grade 6 troops: high end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 7 — Min %</span></td><td class="desc">Grade 7 troops: low end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+          <tr><td><span class="field-name">Grade 7 — Max %</span></td><td class="desc">Grade 7 troops: high end of the per-turn baseline wastage % rolled between (scaled up by out-of-supply and weather).</td></tr>
+        </table>
+
+        <h3 class="sub">Straggler return days, by morale grade</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Grade 3 — Min days</span></td><td class="desc">Grade 3: fewest days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 3 — Max days</span></td><td class="desc">Grade 3: most days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 4 — Min days</span></td><td class="desc">Grade 4: fewest days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 4 — Max days</span></td><td class="desc">Grade 4: most days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 5 — Min days</span></td><td class="desc">Grade 5: fewest days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 5 — Max days</span></td><td class="desc">Grade 5: most days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 6 — Min days</span></td><td class="desc">Grade 6: fewest days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 6 — Max days</span></td><td class="desc">Grade 6: most days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 7 — Min days</span></td><td class="desc">Grade 7: fewest days before a straggler stand rejoins its unit.</td></tr>
+          <tr><td><span class="field-name">Grade 7 — Max days</span></td><td class="desc">Grade 7: most days before a straggler stand rejoins its unit.</td></tr>
+        </table>
+
+        <h3 class="sub">Straggler lost % (never returns), by morale grade</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Grade 3</span></td><td class="desc">% of fresh Grade 3 stragglers that desert or die and never return (rolled once at the moment of loss).</td></tr>
+          <tr><td><span class="field-name">Grade 4</span></td><td class="desc">% of fresh Grade 4 stragglers that desert or die and never return (rolled once at the moment of loss).</td></tr>
+          <tr><td><span class="field-name">Grade 5</span></td><td class="desc">% of fresh Grade 5 stragglers that desert or die and never return (rolled once at the moment of loss).</td></tr>
+          <tr><td><span class="field-name">Grade 6</span></td><td class="desc">% of fresh Grade 6 stragglers that desert or die and never return (rolled once at the moment of loss).</td></tr>
+          <tr><td><span class="field-name">Grade 7</span></td><td class="desc">% of fresh Grade 7 stragglers that desert or die and never return (rolled once at the moment of loss).</td></tr>
+        </table>
+
+        <h3 class="sub">Out-of-supply &amp; foraging</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Out-of-supply</span><span class="field-type">×</span></td><td class="desc">Multiplier applied to wastage (and permanent straggler loss) for a formation cut off from supply.</td></tr>
+          <tr><td><span class="field-name">Foraging strength cost/level</span></td><td class="desc">Stands spent per turn, per foraging level, to live off the land.</td></tr>
+          <tr><td><span class="field-name">Foraging supply penalty reduction/level</span></td><td class="desc">How much each foraging level offsets the out-of-supply wastage penalty.</td></tr>
+          <tr><td><span class="field-name">Foraging base return turns</span></td><td class="desc">Turns a foraging detachment takes to rejoin its formation after being recalled.</td></tr>
+          <tr><td><span class="field-name">Foraging max level</span></td><td class="desc">Highest foraging intensity a formation may set.</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details class="tables">
+      <summary>Siege <span class="tag">reducing a fortified place</span></summary>
+      <div class="body">
+        <p>Governs how a besieged village, town, city or fortress falls.</p>
+
+        <h3 class="sub">Base progress % range, by settlement type</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Village — Min %</span></td><td class="desc">Village: low end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">Village — Max %</span></td><td class="desc">Village: high end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">Town — Min %</span></td><td class="desc">Town: low end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">Town — Max %</span></td><td class="desc">Town: high end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">City — Min %</span></td><td class="desc">City: low end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">City — Max %</span></td><td class="desc">City: high end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">Fortress — Min %</span></td><td class="desc">Fortress: low end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+          <tr><td><span class="field-name">Fortress — Max %</span></td><td class="desc">Fortress: high end of the per-turn siege progress % rolled between, before the force-ratio multiplier.</td></tr>
+        </table>
+
+        <h3 class="sub">Supply grace turns, by settlement type</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Village</span></td><td class="desc">Turns a besieged village holds out on internal stores before starvation attrition begins.</td></tr>
+          <tr><td><span class="field-name">Town</span></td><td class="desc">Turns a besieged town holds out on internal stores before starvation attrition begins.</td></tr>
+          <tr><td><span class="field-name">City</span></td><td class="desc">Turns a besieged city holds out on internal stores before starvation attrition begins.</td></tr>
+          <tr><td><span class="field-name">Fortress</span></td><td class="desc">Turns a besieged fortress holds out on internal stores before starvation attrition begins.</td></tr>
+        </table>
+
+        <h3 class="sub">Other siege fields</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Garrison defense floor</span></td><td class="desc">Minimum effective defensive strength a garrison keeps no matter how reduced it becomes.</td></tr>
+          <tr><td><span class="field-name">Depot supply grace bonus turns</span></td><td class="desc">Extra grace turns added when the besieged settlement holds a supply depot.</td></tr>
+          <tr><td><span class="field-name">Force ratio multiplier brackets</span><span class="field-type">list</span></td><td class="desc">An ordered list of brackets — each with a <b>Min ratio</b> (the besieger-to-garrison strength ratio at which this bracket takes effect; list brackets ascending) and a <b>Multiplier</b> (scales both ends of the base siege progress range once the force ratio reaches this bracket). A token blockade sits in a low-ratio bracket and crawls; an overwhelming investment reaches a high-ratio bracket and moves fast.</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details class="tables">
+      <summary>Command &amp; comms <span class="tag">orders, staff work &amp; couriers</span></summary>
+      <div class="body">
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Planning horizon by nation</span><span class="field-type">turns, dynamic list</span></td><td class="desc">Turns ahead a formation of each nation must commit its orders — once issued, the order is locked for this many turns. Add one row per nation key used elsewhere in the CSF/OB; represents how rigid or responsive that nation's staff culture is.</td></tr>
+          <tr><td><span class="field-name">Comms base rate by nation</span><span class="field-type">hexes/turn, dynamic list</span></td><td class="desc">Baseline vertical (up and down the chain of command) message speed for each nation, in hexes per turn.</td></tr>
+        </table>
+
+        <h3 class="sub">Reaction roll %, by command rating</h3>
+        <table class="field-table">
+          <tr><th>Rating</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Rating 1 (poor)</span></td><td class="desc">Chance (%) a rating-1 commander reacts successfully to an unexpected event within initiative range.</td></tr>
+          <tr><td><span class="field-name">Rating 2</span></td><td class="desc">Chance (%) a rating-2 commander reacts successfully to an unexpected event within initiative range.</td></tr>
+          <tr><td><span class="field-name">Rating 3</span></td><td class="desc">Chance (%) a rating-3 commander reacts successfully to an unexpected event within initiative range.</td></tr>
+          <tr><td><span class="field-name">Rating 4</span></td><td class="desc">Chance (%) a rating-4 commander reacts successfully to an unexpected event within initiative range.</td></tr>
+          <tr><td><span class="field-name">Rating 5 (superb)</span></td><td class="desc">Chance (%) a rating-5 commander reacts successfully to an unexpected event within initiative range.</td></tr>
+        </table>
+
+        <h3 class="sub">Staff rating effects, by staff rating</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Rating 1 — Comms rate ×</span></td><td class="desc">Staff rating 1: multiplier on this HQ's message throughput.</td></tr>
+          <tr><td><span class="field-name">Rating 1 — Max orders/turn</span></td><td class="desc">Staff rating 1: command orders this HQ may draft per turn.</td></tr>
+          <tr><td><span class="field-name">Rating 2 — Comms rate ×</span></td><td class="desc">Staff rating 2: multiplier on this HQ's message throughput.</td></tr>
+          <tr><td><span class="field-name">Rating 2 — Max orders/turn</span></td><td class="desc">Staff rating 2: command orders this HQ may draft per turn.</td></tr>
+          <tr><td><span class="field-name">Rating 3 — Comms rate ×</span></td><td class="desc">Staff rating 3: multiplier on this HQ's message throughput.</td></tr>
+          <tr><td><span class="field-name">Rating 3 — Max orders/turn</span></td><td class="desc">Staff rating 3: command orders this HQ may draft per turn.</td></tr>
+          <tr><td><span class="field-name">Rating 4 — Comms rate ×</span></td><td class="desc">Staff rating 4: multiplier on this HQ's message throughput.</td></tr>
+          <tr><td><span class="field-name">Rating 4 — Max orders/turn</span></td><td class="desc">Staff rating 4: command orders this HQ may draft per turn.</td></tr>
+          <tr><td><span class="field-name">Rating 5 — Comms rate ×</span></td><td class="desc">Staff rating 5: multiplier on this HQ's message throughput.</td></tr>
+          <tr><td><span class="field-name">Rating 5 — Max orders/turn</span></td><td class="desc">Staff rating 5: command orders this HQ may draft per turn.</td></tr>
+        </table>
+
+        <h3 class="sub">Courier risk<span class="field-type">rolled once per dispatched leg</span></h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Delay chance %</span></td><td class="desc">Chance a dispatched courier leg is delayed. Rolled once per leg — shared by contact reports and command orders.</td></tr>
+          <tr><td><span class="field-name">Delay min extra turns</span></td><td class="desc">Fewest extra turns added when a courier leg is delayed.</td></tr>
+          <tr><td><span class="field-name">Delay max extra turns</span></td><td class="desc">Most extra turns added when a courier leg is delayed.</td></tr>
+          <tr><td><span class="field-name">Lost chance %</span></td><td class="desc">Chance a courier leg is lost entirely — the message never arrives.</td></tr>
+          <tr><td><span class="field-name">Intercepted chance %</span></td><td class="desc">Chance a courier leg is intercepted by the enemy. Whatever is left of the roll after delay/lost/intercepted = delivered on time.</td></tr>
+        </table>
+
+        <h3 class="sub">Formation join penalty<span class="field-type">reorganisation</span></h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Movement ×</span></td><td class="desc">While a freshly transferred or newly raised unit is attached, its formation's movement allowance is scaled by this (≤ 1).</td></tr>
+          <tr><td><span class="field-name">Battle strength ×</span></td><td class="desc">Same reorganisation window: the formation's effective battle strength is scaled by this (≤ 1).</td></tr>
+          <tr><td><span class="field-name">Turns</span></td><td class="desc">How many turns the reorganisation penalty lasts from the moment a unit joins.</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details class="tables">
+      <summary>Victory <span class="tag">how the war is scored and won</span></summary>
+      <div class="body">
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Scoring mode</span></td><td class="desc"><i>Highest total wins</i>: compare scores at campaign end. <i>First to threshold wins</i>: whoever reaches Score threshold first ends it immediately.</td></tr>
+          <tr><td><span class="field-name">Campaign end turn</span><span class="field-type">optional</span></td><td class="desc">Turn the campaign is forced to end and scored. 0/blank = no fixed end turn.</td></tr>
+          <tr><td><span class="field-name">Score threshold</span><span class="field-type">optional</span></td><td class="desc">Points needed to trigger an immediate win under "first to threshold". 0/blank = unused.</td></tr>
+        </table>
+
+        <p>Below that sits the <b>objectives list</b> — the actual war aims, one row of the table below per objective.</p>
+        <h3 class="sub">Objectives — fields on every objective</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Id</span></td><td class="desc">Identifier for this objective, referenced in scoring logs.</td></tr>
+          <tr><td><span class="field-name">Side</span></td><td class="desc">Which side earns the points by satisfying this objective.</td></tr>
+          <tr><td><span class="field-name">Type</span></td><td class="desc">What must happen: hold a settlement, hold N settlements, inflict casualties, destroy a formation, survive to a turn, or reach a position by a deadline. Changing it shows the fields that type needs (see below).</td></tr>
+          <tr><td><span class="field-name">Description</span></td><td class="desc">Free text shown to players in the briefing.</td></tr>
+          <tr><td><span class="field-name">Point value</span></td><td class="desc">Points awarded to the owning side when this objective is met.</td></tr>
+          <tr><td><span class="field-name">Decisive</span><span class="field-type">toggle</span></td><td class="desc">When met, the campaign ends immediately regardless of other conditions.</td></tr>
+          <tr><td><span class="field-name">Deadline turn</span><span class="field-type">optional</span></td><td class="desc">Turn by which the objective must be met to count. 0/blank = no deadline.</td></tr>
+        </table>
+
+        <h3 class="sub">Objectives — extra fields by type</h3>
+        <table class="field-table">
+          <tr><th>Field</th><th>What it represents</th></tr>
+          <tr><td><span class="field-name">Target hex q / r</span><span class="field-type">Control settlement, Position by deadline</span></td><td class="desc">Axial q/r coordinate of the settlement or position this objective refers to.</td></tr>
+          <tr><td><span class="field-name">Settlement type filter</span><span class="field-type">Control settlement count</span></td><td class="desc">Restrict the count to settlements of this type. (any) = every settlement counts.</td></tr>
+          <tr><td><span class="field-name">Target count</span><span class="field-type">Control settlement count</span></td><td class="desc">Number of settlements the owning side must control.</td></tr>
+          <tr><td><span class="field-name">Target count</span><span class="field-type">Inflict casualties, optional</span></td><td class="desc">Absolute enemy stands that must be destroyed. 0/blank = this measure unused.</td></tr>
+          <tr><td><span class="field-name">Target %</span><span class="field-type">Inflict casualties, optional</span></td><td class="desc">Percentage of the enemy force that must be destroyed. 0/blank = this measure unused.</td></tr>
+          <tr><td><span class="field-name">Target formation id</span><span class="field-type">Destroy formation, Position by deadline</span></td><td class="desc">The formation that must be destroyed (or reached, for position objectives).</td></tr>
+          <tr><td><span class="field-name">Subject formation id</span><span class="field-type">Position by deadline, optional</span></td><td class="desc">Formation whose position is checked against the target. Blank = the side's overall commander.</td></tr>
+          <tr><td><span class="field-name">Range</span><span class="field-type">Position by deadline, hexes</span></td><td class="desc">How close the subject must get to the target hex/formation to satisfy the objective.</td></tr>
+        </table>
+        <p><b>Survive until turn</b> and the base fields above are all it needs — it has no extra type-specific fields; simply being un-eliminated at Deadline turn satisfies it.</p>
+      </div>
+    </details>
+
+    <div class="note"><b>Saving</b> a brand-new, never-saved CSF creates it. Saving a CSF you loaded overwrites it in place — any campaign already created from it reads the change live, on its very next turn, not just future campaigns. Only once a CSF is saved for the first time do the Campaign Map and Campaign OB tabs unlock for it.</div>
+  </section>
+
+  <!-- ================= STAGE 2 ================= -->
+  <section id="stage-2" class="stage">
+    <div class="stage-head"><span class="num">II</span><h2>Campaign Map</h2></div>
+    <p class="stage-tabline">Campaign Scenarios <span class="arrow">▸</span> Campaign Map — the ground this CSF's campaigns are fought over</p>
+    <p>This is the theatre itself: a rectangular hex grid you generate by row and column count, then hand-paint. Everything you place here is what "Ground scale" and the terrain-cost table from Stage I are actually describing — it's the map, this is the legend brought to life.</p>
+
+    <h3 class="sub">What you paint</h3>
+    <table class="field-table">
+      <tr><th>Element</th><th>What it represents</th></tr>
+      <tr><td><span class="field-name">Terrain</span></td><td class="desc">Paint each hex with a terrain type from the CSF's own palette (open, forest, hills, marsh, mountains, urban, walled village, water) — the physical ground troops must cross and fight over.</td></tr>
+      <tr><td><span class="field-name">Roads</span></td><td class="desc">Painted along hex edges. Not cosmetic — any edge you mark as a road gets the CSF's road-movement speed instead of the hex's normal terrain cost, so where you draw roads decides which routes armies actually prefer.</td></tr>
+      <tr><td><span class="field-name">River edges</span></td><td class="desc">Marked along hex edges the same way as roads; these are what the CSF's river-crossing cost and "blocks without crossing" rule are keyed to.</td></tr>
+      <tr><td><span class="field-name">Settlements</span></td><td class="desc">Placed on a hex with a name, a type (village / town / city / fortress — feeds the Stage I siege tables), a flag marking it as a scenario objective (wired to control-settlement victory objectives), a flag marking it as a supply depot, and an owning side.</td></tr>
+      <tr><td><span class="field-name">Supply points</span></td><td class="desc">Seed field depots present from turn one, each owned by a side, with an "established turn" (normally turn 1) recording how long it's been supplying troops.</td></tr>
+      <tr><td><span class="field-name">Labels</span></td><td class="desc">Free-text place names shown on the map for orientation — click a hex to add or edit one.</td></tr>
+    </table>
+
+    <div class="note">Like the CSF itself, this map is a <b>template</b>: every campaign created from this CSF gets its own private copy of it at creation. Editing the map afterward never changes a campaign that already exists.</div>
+  </section>
+
+  <!-- ================= STAGE 3 ================= -->
+  <section id="stage-3" class="stage">
+    <div class="stage-head"><span class="num">III</span><h2>Campaign OB</h2></div>
+    <p class="stage-tabline">Campaign Scenarios <span class="arrow">▸</span> Campaign OB — the starting order of battle template</p>
+    <p>The muster roll: the formations, units and leaders every campaign built from this CSF starts with. This is a <i>template</i> order of battle — there are no players here yet, only the historical (or fictional) starting dispositions. Assigning a living player to command a formation happens later, once a campaign actually exists (Stage IV, "After creation").</p>
+
+    <h3 class="sub">Formations</h3>
+    <table class="field-table">
+      <tr><th>Field</th><th>What it represents</th></tr>
+      <tr><td><span class="field-name">Name</span></td><td class="desc">e.g. "I Corps" — the top-level command a set of units belongs to.</td></tr>
+      <tr><td><span class="field-name">Echelon</span></td><td class="desc">Army or corps — the formation's level in the command hierarchy, which shapes what it can contain and how orders flow through it.</td></tr>
+      <tr><td><span class="field-name">Side</span></td><td class="desc">Which of the two belligerents the formation fights for.</td></tr>
+      <tr><td><span class="field-name">Position</span></td><td class="desc">The hex it starts the campaign standing on.</td></tr>
+      <tr><td><span class="field-name">Planning horizon</span><span class="field-type">turns</span></td><td class="desc">A per-formation override of how many turns ahead this formation must commit its orders — some formations can be given a tighter or looser leash than the nation's default.</td></tr>
+    </table>
+
+    <h3 class="sub">Units</h3>
+    <table class="field-table">
+      <tr><th>Field</th><th>What it represents</th></tr>
+      <tr><td><span class="field-name">Name</span></td><td class="desc">e.g. "1st Grenadiers" — the regiment or battalion itself.</td></tr>
+      <tr><td><span class="field-name">Nation</span></td><td class="desc">Free text, but it must match a nation key used elsewhere in the CSF (planning horizon, comms rate) or those per-nation tables won't apply to it.</td></tr>
+      <tr><td><span class="field-name">Type</span></td><td class="desc">Free text describing the arm — "line infantry", "heavy cavalry", "foot artillery" and so on.</td></tr>
+      <tr><td><span class="field-name">Max stands</span></td><td class="desc">The unit's full fighting strength, measured in stands (the game's manpower block) — where it starts and the ceiling it can be rebuilt up to.</td></tr>
+      <tr><td><span class="field-name">Morale</span><span class="field-type">grade 3–7</span></td><td class="desc">Fighting quality, which plugs straight into the Stage I wastage and straggler-recovery tables — elite troops waste away slower and rejoin faster than raw levies.</td></tr>
+      <tr><td><span class="field-name">Formation</span></td><td class="desc">Which formation the unit is attached to on day one (or unattached, held in reserve outside any formation).</td></tr>
+    </table>
+
+    <h3 class="sub">Leaders</h3>
+    <table class="field-table">
+      <tr><th>Field</th><th>What it represents</th></tr>
+      <tr><td><span class="field-name">Name / Nation / Rank</span></td><td class="desc">The officer's identity — rank is free text ("Marshal", "General of Division", etc).</td></tr>
+      <tr><td><span class="field-name">Echelon</span></td><td class="desc">Army, corps, division or brigade — the level of command this officer is suited to.</td></tr>
+      <tr><td><span class="field-name">Command rating</span><span class="field-type">1–5</span></td><td class="desc">Overall command quality — feeds the Stage I reaction-roll table, so a higher-rated commander responds better to the unexpected.</td></tr>
+      <tr><td><span class="field-name">Initiative range</span><span class="field-type">hexes</span></td><td class="desc">How far from his own position this officer may act on a successful reaction roll without waiting for new orders from above.</td></tr>
+      <tr><td><span class="field-name">Formation / Set as commander</span></td><td class="desc">Attach the leader to a formation, and optionally make him its commanding officer outright.</td></tr>
+    </table>
+  </section>
+
+  <!-- ================= STAGE 4 ================= -->
+  <section id="stage-4" class="stage">
+    <div class="stage-head"><span class="num">IV</span><h2>New Campaign</h2></div>
+    <p class="stage-tabline">Start or Resume Campaign — where a template finally becomes a live campaign</p>
+    <p>This is the tab this handbook is linked from. With a finished CSF (and, through it, a map and an order of battle) in hand, this is where you actually bring a campaign into being — click <span class="field-name">Start New Campaign</span>, fill in the form below, and <span class="field-name">Save</span>.</p>
+
+    <table class="field-table">
+      <tr><th>Field</th><th>What it represents</th></tr>
+      <tr><td><span class="field-name">Name</span></td><td class="desc">The campaign's own display name — what players will see it called.</td></tr>
+      <tr><td><span class="field-name">Start date</span><span class="field-type">ISO, YYYY-MM-DD</span></td><td class="desc">The in-world calendar date the campaign opens on. Its month is what decides which of the CSF's weather profiles can be rolled from turn one.</td></tr>
+      <tr><td><span class="field-name">Order window policy</span></td><td class="desc"><b>Wait for all</b> — a turn only resolves once every player has submitted orders. <b>Hard deadline</b> — the turn resolves after a fixed number of real-world hours regardless of who has or hasn't submitted, so laggards get skipped rather than holding everyone else hostage.</td></tr>
+      <tr><td><span class="field-name">Deadline hours</span></td><td class="desc">Only shown under Hard deadline: the real-world hours players actually get to submit orders before the turn auto-resolves.</td></tr>
+      <tr><td><span class="field-name">CSF</span></td><td class="desc">Which finished Campaign Scenario File this campaign runs on. Its map and order of battle are copied into the new campaign at this exact moment — later edits to the CSF won't reach back into it.</td></tr>
+    </table>
+
+    <p><b>Required to save:</b></p>
+    <div class="required-list"><span>Name</span><span>Start date</span><span>CSF</span></div>
+  </section>
+
+  <!-- ================= AFTER ================= -->
+  <section id="after" class="stage">
+    <div class="stage-head"><span class="num">＋</span><h2>After Creation</h2></div>
+    <p class="stage-tabline">Still on Start or Resume Campaign — managing a campaign once it exists</p>
+    <p>Load a campaign you own from the <span class="field-name">Load existing…</span> picker to inspect it read-only: its id, CSF id, start date, lifecycle <span class="field-name">Status</span> (<code>setup</code> → <code>active</code> → <code>completed</code>) and current turn number.</p>
+
+    <h3 class="sub">Reassigning commanders</h3>
+    <p>The Formations table lists every formation with its echelon, side, current hex, and commanding player. Type a player's user id into a row's box and press <span class="field-name">Set</span> to hand that formation to them — or leave it blank to clear the seat. This is the one piece of campaign setup that genuinely can't happen earlier: a CSF's order-of-battle template has no players attached to it yet, only formations waiting for one.</p>
+
+    <div class="warn"><b>Delete campaign</b> is permanent and owner-only: it removes the campaign's map, formations, units, leaders, orders, and battle history outright. It does not touch the CSF it was created from — that template survives to launch other campaigns.</div>
+  </section>
+
+</main>
+
+<footer>
+  This handbook mirrors the Campaign Author tool's field-level tooltips (hover any field in the app for the same wording, verbatim, at the point of use). If a field here and the app ever disagree, trust the app.
+</footer>
+
+</body>
+</html>

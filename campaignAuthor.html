@@ -11,6 +11,8 @@
       .sa-banner { background: var(--color-danger); color: var(--color-bg); padding: 6px 12px; font-size: 12px; }
       .sa-banner:empty { display: none; }
 
+      .sa-navbar { display: flex; align-items: center; padding: 6px 10px; border-bottom: 1px solid var(--color-divider); }
+
       .sa-tabbar { display: flex; gap: 4px; padding: 8px 10px 0; border-bottom: 1px solid var(--color-divider); }
 
       /* Sub-tab row (a group's tabs — e.g. Campaign Scenarios' Campaign
@@ -28,6 +30,11 @@
       .sa-field { display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
       .sa-field > label { opacity: .7; }
       .sa-field input[type="checkbox"] { width: 16px; height: 16px; align-self: flex-start; }
+
+      /* Read-only sum readout (e.g. weather profile's per-month totals) sat inside an
+         .sa-field in place of an input. Flagged when a month has no weight at all. */
+      .sa-total-value { font-variant-numeric: tabular-nums; }
+      .sa-total-value.sa-total-zero { color: var(--color-danger); }
 
       /* Controls carrying a hover/focus tooltip (see src/campaignAuthor/tooltip.ts). */
       [data-sa-tip] { cursor: help; }
@@ -74,9 +81,18 @@
       }
       .sa-rollup[open] > summary { margin-bottom: 8px; }
       .sa-rollup > .sa-section:last-child { margin-bottom: 0; }
+
+      /* Save-time playability check (src/campaignAuthor/csfReadiness.ts) —
+         blockers in the danger colour, softer warnings below them. */
+      .sa-check-heading { font-size: 12px; margin: 8px 0 2px; opacity: .8; }
+      .sa-check-list { margin: 2px 0 6px; padding-left: 18px; font-size: 12px; }
+      .sa-check-list li { margin: 2px 0; }
+      .sa-check-blocker { color: var(--color-danger); }
+      .sa-check-warning { color: var(--color-caution); }
+      .sa-check-ok { font-size: 12px; margin: 4px 0; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-CYRdIHZo.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-BV1mAKIj.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-B8O27ZOL.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-7eFfHl5y.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-NOCYG6t2.css">
   </head>
   <body>
