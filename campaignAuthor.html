@@ -95,6 +95,23 @@
       .sa-rollup[open] > summary { margin-bottom: 8px; }
       .sa-rollup > .sa-section:last-child { margin-bottom: 0; }
 
+      /* "View OB" — read-only hierarchical roll-up, one per Army HQ
+         (tabs/ob.ts renderObRollups). Each nested formation is indented
+         under its parent (16px/level — keep in sync with obTreeIndentPx);
+         every unit table uses the same fixed column widths and is pulled
+         back to the roll-up's left edge so columns line up across the army. */
+      .sa-obtree-node { padding-left: 16px; margin: 3px 0; }
+      .sa-obtree-root { padding-left: 0; }
+      .sa-obtree-formation { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 3px 0; }
+      .sa-obtree-echelon { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; opacity: .55; }
+      .sa-obtree-name { font-weight: 600; }
+      .sa-obtree-cmdr { font-size: 12px; opacity: .8; }
+      .sa-obtree-nocmdr { color: var(--color-caution); opacity: 1; }
+      .sa-obtree-subleaders { font-size: 11px; opacity: .65; padding: 0 0 2px; }
+      .sa-obtree-empty { font-size: 12px; opacity: .6; margin: 2px 0; }
+      table.sa-obtree-units { table-layout: fixed; margin: 4px 0 8px; }
+      table.sa-obtree-units th, table.sa-obtree-units td { overflow-wrap: anywhere; }
+
       /* Save-time playability check (src/campaignAuthor/csfReadiness.ts) —
          blockers in the danger colour, softer warnings below them. */
       .sa-check-heading { font-size: 12px; margin: 8px 0 2px; opacity: .8; }
@@ -103,9 +120,37 @@
       .sa-check-blocker { color: var(--color-danger); }
       .sa-check-warning { color: var(--color-caution); }
       .sa-check-ok { font-size: 12px; margin: 4px 0; }
+
+      /* Page-wide "working" cursor while an async button handler (Save,
+         Delete, Import) is awaiting the server — toggled by formHelpers.ts
+         button(). Covers descendants too so it shows over inputs/links. */
+      body.sa-busy, body.sa-busy * { cursor: wait !important; }
+
+      /* Confirmation line at the top of a freshly-created campaign's panel
+         (tabs/campaign.ts) — a plain-language acknowledgement that the
+         POST succeeded, kept until another campaign is loaded or started. */
+      .sa-created {
+        border: 1px solid var(--color-accent, var(--color-divider));
+        border-radius: 4px; padding: 8px 12px; margin-bottom: 12px; font-size: 13px;
+      }
+      .sa-created::before { content: "\2713\00a0"; font-weight: 700; }
+
+      /* Formation command-assignment tree (tabs/campaign.ts
+         renderAssignmentPanel) — one indented node per formation, Army HQ at
+         depth 0, corps/divisions nested under their parent. */
+      .sa-assign-warn { color: var(--color-caution); font-size: 12px; margin-bottom: 8px; }
+      .sa-assign-side { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; opacity: .7; margin: 10px 0 4px; }
+      .sa-assign-node { margin: 2px 0; }
+      .sa-assign-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 3px 0; }
+      .sa-assign-echelon { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; opacity: .55; }
+      .sa-assign-name { font-weight: 600; }
+      .sa-assign-select { width: auto; min-width: 180px; }
+      .sa-assign-note { font-size: 12px; opacity: .7; }
+      .sa-assign-note-none { color: var(--color-caution); opacity: 1; }
+      .sa-inline-check { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 8px; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-D8D8EuU0.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-it3h2-W8.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-GpWBM71U.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-C9C4hdlQ.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-NOCYG6t2.css">
   </head>
   <body>
