@@ -53,6 +53,17 @@
 
       .sa-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 
+      /* Multi-select trait picker (formHelpers.ts multiSelectField) — a wrapping
+         row of toggle chips, one per option, inside an .sa-field. */
+      .sa-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+      .sa-chip {
+        font-size: 11px; padding: 2px 8px; border-radius: 10px; cursor: pointer; user-select: none;
+        border: 1px solid var(--color-divider); background: var(--color-neutral-100); color: inherit; opacity: .75;
+      }
+      .sa-chip:hover { opacity: 1; }
+      .sa-chip.sa-chip-on { background: var(--color-accent, var(--color-neutral-900)); color: var(--color-bg); opacity: 1; border-color: transparent; }
+      .sa-chips-empty { font-size: 11px; opacity: .5; }
+
       .sa-array-item { border: 1px dashed var(--color-divider); border-radius: 4px; padding: 8px; margin-bottom: 8px; position: relative; }
 
       /* A denser, full-grid-bordered table shape than the shared `.table`
@@ -63,6 +74,8 @@
       table.sa-table { border-collapse: collapse; width: 100%; font-size: 12px; }
       table.sa-table th, table.sa-table td { border: 1px solid var(--color-divider); padding: 4px 6px; text-align: left; }
       table.sa-table th { background: var(--color-neutral-100); opacity: .8; text-transform: uppercase; font-size: 11px; letter-spacing: .04em; }
+      table.sa-table th.sa-th-sort { cursor: pointer; user-select: none; white-space: nowrap; }
+      table.sa-table th.sa-th-sort:hover { opacity: 1; }
 
       .sa-map-layout { display: flex; gap: 10px; height: calc(100vh - 90px); }
       .sa-map-canvas { flex: 1; background: var(--board-bg); border: 1px solid var(--color-divider); }
@@ -91,8 +104,8 @@
       .sa-check-warning { color: var(--color-caution); }
       .sa-check-ok { font-size: 12px; margin: 4px 0; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-id6Q0xc4.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-CSu2fBcC.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-D8D8EuU0.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-it3h2-W8.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-NOCYG6t2.css">
   </head>
   <body>
