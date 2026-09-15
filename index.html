@@ -63,6 +63,7 @@
          so this needs its own id-scoped rule to actually win. */
       #play-log[hidden] { display: none; }
       #play-topbar { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-4); padding: var(--space-2) var(--space-4); border-bottom: 1px solid var(--color-divider); }
+      .topbar-turn-date { margin-right: auto; font: 600 18px var(--font-heading); color: var(--color-text); opacity: .75; white-space: nowrap; }
       .topbar-meter { width: 180px; }
       /* Explicit `grid-column` line assignments, not DOM-order auto-placement:
          `#play-log:empty{display:none}` above removes it from the grid's
@@ -96,10 +97,10 @@
       .log-body { flex: 1; min-height: 0; overflow-y: auto; padding: var(--space-2) var(--space-3); }
       .log-turn-group + .log-turn-group { margin-top: var(--space-2); }
       .log-turn-banner { position: sticky; top: 0; z-index: 1; background: var(--color-surface); font: 700 10px var(--font-heading); letter-spacing: .06em; text-transform: uppercase; text-align: center; opacity: .7; padding: 3px 0; }
-      .log-row { display: flex; gap: 6px; padding: 4px 2px; font-size: 12px; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+      .log-row { display: flex; flex-direction: column; gap: 2px; padding: 4px 2px; font-size: 12px; border-bottom: 1px solid rgba(0, 0, 0, .06); }
       .log-row-clickable { cursor: pointer; }
       .log-row-clickable:hover { background: var(--color-neutral-100); }
-      .log-row-kind { flex: none; font-weight: 700; opacity: .6; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; padding-top: 1px; }
+      .log-row-kind { font-weight: 700; opacity: .6; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; }
       .log-row-text { flex: 1; }
       .log-footer { padding: var(--space-2) var(--space-3); }
 
@@ -120,15 +121,8 @@
       .phase-chip-urgent { background: var(--color-danger); color: #fff; }
       .phase-chip-closed { opacity: .5; }
 
-      /* turn ribbon (design handoff RIB table, ported from CTG's turnOrderRibbon.ts) */
-      #turn-ribbon { display: flex; gap: 2px; padding: 4px var(--space-4); border-bottom: 1px solid var(--color-divider); }
-      .ribbon-step { font: 600 11px var(--font-heading); padding: 3px 9px; border: none; background: transparent; color: var(--color-text); white-space: nowrap; cursor: default; opacity: .55; }
-      .ribbon-step-done { opacity: .85; }
-      .ribbon-step-current { opacity: 1; background: var(--color-accent); color: var(--color-bg); font-weight: 700; }
-      .ribbon-step-automatic { opacity: .7; background: var(--color-neutral-100); }
-      .ribbon-step-clickable { cursor: pointer; }
-      .ribbon-step-clickable:hover { text-decoration: underline; }
-      .ribbon-step:disabled { cursor: default; }
+      /* turn ribbon: single "View formation orders" shortcut into the Orders review panel */
+      #turn-ribbon { display: flex; padding: 4px var(--space-4); border-bottom: 1px solid var(--color-divider); }
 
       /* -- map screen -- */
       .map-canvas { position: absolute; inset: 0; }
@@ -151,6 +145,7 @@
       .insp-oob-chevron { opacity: .5; }
       .insp-placeholder { margin: 0; opacity: .6; }
       .insp-head { margin-bottom: 8px; }
+      .insp-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; border: 1px solid var(--color-divider); margin-right: 6px; vertical-align: middle; }
       .insp-rel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; padding: 1px 5px; border: 1px solid var(--color-divider); border-radius: 8px; opacity: .8; }
       .insp-rel-commanded { border-color: var(--color-accent); color: var(--color-accent); opacity: 1; }
       .insp-rel-ocTarget { border-color: var(--color-accent-400); color: var(--color-accent-400); opacity: 1; }
@@ -170,7 +165,8 @@
       .insp-unit-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-caution); border: 1px solid var(--color-caution); border-radius: 6px; padding: 0 4px; }
       .insp-actions { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
       .insp-multi { list-style: none; margin: 6px 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-      .insp-multi-btn { display: block; width: 100%; text-align: left; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 3px; padding: 5px 8px; cursor: pointer; color: inherit; font: inherit; }
+      .insp-multi-child { padding-left: 18px; }
+      .insp-multi-btn { display: flex; align-items: center; width: 100%; text-align: left; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 3px; padding: 5px 8px; cursor: pointer; color: inherit; font: inherit; }
       .insp-multi-btn:hover { border-color: var(--color-accent); }
       .insp-clear { display: inline-block; margin-top: 10px; }
 
@@ -184,8 +180,9 @@
       .map-hud-zoom { right: 12px; bottom: 12px; display: flex; flex-direction: column; padding: 3px; gap: 3px; }
       .map-hud-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .08); border: 1px solid var(--board-chrome-border); border-radius: 3px; color: inherit; font-size: 15px; line-height: 1; cursor: pointer; }
       .map-hud-btn:hover { background: rgba(255, 255, 255, .18); }
-      .map-hud-layers { right: 12px; top: 12px; display: flex; flex-direction: column; gap: 3px; padding: 7px 9px; }
+      .map-hud-layers { right: 12px; top: 12px; display: flex; flex-direction: column; gap: 5px; padding: 7px 9px; }
       .map-hud-layer { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+      .map-hud-select { background: rgba(255, 255, 255, .08); border: 1px solid var(--board-chrome-border); border-radius: 3px; color: inherit; font-size: 11px; padding: 2px 4px; cursor: pointer; }
       .map-hud-legend { left: 12px; top: 12px; display: flex; flex-direction: column; gap: 2px; padding: 7px 9px; opacity: .9; }
 
       /* -- order popover / directive form (Part C) -- */
@@ -200,27 +197,44 @@
       .opop-unit-list { display: flex; flex-direction: column; gap: 3px; max-height: 140px; overflow-y: auto; border: 1px solid var(--board-chrome-border); border-radius: 3px; padding: 4px 6px; }
       .opop-unit { display: flex; gap: 6px; align-items: center; }
       .opop-confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--color-caution); border: 1px solid var(--color-caution); color: var(--color-neutral-900); border-radius: 3px; padding: 6px 8px; margin-bottom: 8px; }
+      .opop-march-order { list-style: decimal; margin: 6px 0 0; padding: 0 0 0 20px; display: flex; flex-direction: column; gap: 4px; }
+      .opop-march-order li { display: flex; gap: 6px; align-items: center; }
+      .opop-march-order li > span:nth-child(2) { flex: 1; }
+      .opop-march-kind { opacity: .6; font-size: 10px; text-transform: uppercase; }
       .opop-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
 
       /* -- orders review panel (Phase 4.8 sub-phase D.1) -- */
       .orv-body { display: flex; flex-direction: column; gap: var(--space-2); }
       .orv-table-wrap { max-height: 60vh; overflow-y: auto; }
-      .orv-order-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-      .orv-forage { width: 64px; }
       .orv-actions-cell { text-align: right; white-space: nowrap; }
 
-      /* -- battle flow panel (Phase 4.8 sub-phase D.2) -- */
+      /* -- Battle Resolution panel (Phase 4.8 sub-phase D.2) -- */
       .bfl-body { display: flex; flex-direction: column; gap: var(--space-3); max-height: 70vh; overflow-y: auto; }
-      .bfl-card { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; }
+      .bfl-card { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; outline: 2px solid transparent; transition: outline-color 0.3s ease; }
+      .bfl-card-focused { outline-color: var(--color-accent); }
       .bfl-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
       .bfl-card-title { font-weight: 600; }
       .bfl-owner-actions { display: flex; gap: var(--space-2); }
-      .bfl-posture { display: flex; flex-direction: column; gap: 4px; }
-      .bfl-posture-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .bfl-posture { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+      .bfl-posture-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+      .bfl-posture-toggle-open { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
       .bfl-result-form { display: flex; flex-direction: column; gap: var(--space-2); }
       .bfl-stands { width: 64px; }
       .bfl-result-readout { color: var(--color-accent); font-size: 12px; }
+      .bfl-result-side { margin-top: 6px; }
       .bfl-result-list { margin: 4px 0 0; padding-left: 18px; }
+      /* nowrap only — never truncated. A name too long to sit beside its
+         posture `<select>` wraps the whole row instead (`.bfl-posture-row`'s
+         `flex-wrap: wrap`), so the name is always shown in full. */
+      .bfl-formation-name { display: inline-block; white-space: nowrap; }
+      .bfl-composition { display: flex; flex-direction: column; gap: 6px; }
+      .bfl-composition-list { margin: 2px 0 4px; padding-left: 18px; font-size: 12px; }
+      .bfl-previous-turns { display: flex; flex-direction: column; gap: var(--space-3); border-top: 1px solid var(--color-divider); padding-top: var(--space-3); }
+      .bfl-previous-turns-open { align-items: stretch; }
+      .ard-body { display: flex; flex-direction: column; gap: var(--space-3); max-height: 70vh; overflow-y: auto; }
+      .ard-group { display: flex; flex-direction: column; gap: 2px; }
+      .ard-group-head { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; opacity: .6; }
+      .ard-row { font-size: 12px; padding: 2px 0; border-bottom: 1px solid rgba(0, 0, 0, .06); }
 
       /* -- comms & intel panel (Phase 4.8 sub-phase D.3) -- */
       .cmi-body { display: flex; flex-direction: column; gap: var(--space-2); max-height: 70vh; overflow-y: auto; }
@@ -254,10 +268,12 @@
 
       .map-route-hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 7; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 6px 12px; border-radius: 4px; font-size: 12px; }
       .map-route-hint[hidden] { display: none; }
+      .map-route-eta { position: absolute; z-index: 4; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; pointer-events: none; white-space: nowrap; }
+      .map-route-eta[hidden] { display: none; }
     </style>
-    <script type="module" crossorigin src="./assets/main-DkKXLry9.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-C9C4hdlQ.js">
-    <link rel="stylesheet" crossorigin href="./assets/prefs-NOCYG6t2.css">
+    <script type="module" crossorigin src="./assets/main-BTXBcl_g.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-C4NQ0I1T.js">
+    <link rel="stylesheet" crossorigin href="./assets/prefs-C0qBHcnN.css">
   </head>
   <body>
     <div id="app"></div>
