@@ -54,8 +54,8 @@
          are set from JS (`map.ts`), not fixed here, since whether the
          dispatches log (Phase C) has content is game-state-dependent. */
       .play-shell { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-      #nav-bar, #play-topbar, #phase-bar, #turn-ribbon, #play-log { flex: none; }
-      #nav-bar:empty, #play-topbar:empty, #phase-bar:empty, #turn-ribbon:empty, #play-log:empty { display: none; }
+      #nav-bar, #play-topbar, #turn-ribbon, #play-log { flex: none; }
+      #nav-bar:empty, #play-topbar:empty, #turn-ribbon:empty, #play-log:empty { display: none; }
       /* The browser's own `[hidden]{display:none}` UA rule is attribute-only
          specificity — it loses to `#play-log`'s own `display: flex` below (an
          id selector outranks a bare attribute one). `map.ts`'s
@@ -104,25 +104,8 @@
       .log-row-text { flex: 1; }
       .log-footer { padding: var(--space-2) var(--space-3); }
 
-      /* phase bar (design handoff PHASES table, ported from CTG's battleTimeBar.ts) */
-      .phase-labels { display: flex; gap: 2px; margin-bottom: 3px; }
-      .phase-label { flex: 1 1 0%; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; text-align: center; font-family: var(--font-heading); font-weight: 700; opacity: .55; }
-      .phase-label-current { opacity: 1; color: var(--color-accent); }
-      .phase-label-done { opacity: .8; }
-      .phase-bar-track { position: relative; display: flex; height: 14px; border: 1px solid var(--color-divider); }
-      .phase-seg { border-right: 1px solid var(--color-bg); }
-      .phase-seg:last-child { border-right: none; }
-      .phase-seg-done { background: var(--color-accent-800); }
-      .phase-seg-current { background: var(--color-accent); }
-      .phase-seg-upcoming { background: var(--color-neutral-300); }
-      .phase-marker { position: absolute; top: -3px; bottom: -3px; width: 3px; margin-left: -1.5px; background: #fff; mix-blend-mode: difference; }
-      .phase-marker-urgent { background: var(--color-danger); mix-blend-mode: normal; }
-      .phase-chip { display: inline-block; margin-top: 4px; font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 2px 7px; border-radius: 8px; background: var(--color-neutral-100); color: var(--color-text); }
-      .phase-chip-urgent { background: var(--color-danger); color: #fff; }
-      .phase-chip-closed { opacity: .5; }
-
       /* turn ribbon: single "View formation orders" shortcut into the Orders review panel */
-      #turn-ribbon { display: flex; padding: 4px var(--space-4); border-bottom: 1px solid var(--color-divider); }
+      #turn-ribbon { display: flex; gap: var(--space-2); padding: 4px var(--space-4); border-bottom: 1px solid var(--color-divider); }
 
       /* -- map screen -- */
       .map-canvas { position: absolute; inset: 0; }
@@ -134,15 +117,8 @@
       .map-banner-error { background: var(--color-danger); border: 1px solid var(--color-danger); color: var(--color-bg); }
 
       /* -- inspector (Part B; relocated into #play-inspector, sub-phase B) -- */
-      .insp-tabs { display: flex; margin: calc(var(--space-3) * -1) calc(var(--space-3) * -1) var(--space-2); border-bottom: 1px solid var(--color-divider); }
       .insp-pane { font-size: 12px; }
-      .insp-breadcrumb { margin-bottom: 8px; font-size: 12px; }
-      .insp-oob-list { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 2px; }
-      .insp-oob-row { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; background: transparent; border: 1px solid var(--color-divider); border-radius: 3px; padding: 6px 8px; cursor: pointer; color: inherit; font: inherit; }
-      .insp-oob-row:hover { background: var(--color-neutral-100); }
-      .insp-oob-name { flex: 1; }
       .insp-oob-echelon { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; opacity: .6; }
-      .insp-oob-chevron { opacity: .5; }
       .insp-placeholder { margin: 0; opacity: .6; }
       .insp-head { margin-bottom: 8px; }
       .insp-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; border: 1px solid var(--color-divider); margin-right: 6px; vertical-align: middle; }
@@ -177,9 +153,10 @@
 
       /* -- map HUD chrome (Phase 4.8 sub-phase D.6) -- */
       .map-hud { position: absolute; z-index: 6; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); border-radius: 4px; color: var(--board-chrome-text); font-size: 11px; }
-      .map-hud-zoom { right: 12px; bottom: 12px; display: flex; flex-direction: column; padding: 3px; gap: 3px; }
-      .map-hud-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .08); border: 1px solid var(--board-chrome-border); border-radius: 3px; color: inherit; font-size: 15px; line-height: 1; cursor: pointer; }
+      .map-hud-zoom { right: 12px; bottom: 12px; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; padding: 3px; gap: 3px; max-width: min(90vw, 520px); }
+      .map-hud-btn { min-width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; padding: 0 8px; background: rgba(255, 255, 255, .08); border: 1px solid var(--board-chrome-border); border-radius: 3px; color: inherit; font-size: 12px; line-height: 1; white-space: nowrap; cursor: pointer; }
       .map-hud-btn:hover { background: rgba(255, 255, 255, .18); }
+      .map-hud-btn.active { background: var(--color-caution); color: #1d1f20; border-color: var(--color-caution); }
       .map-hud-layers { right: 12px; top: 12px; display: flex; flex-direction: column; gap: 5px; padding: 7px 9px; }
       .map-hud-layer { display: flex; align-items: center; gap: 5px; cursor: pointer; }
       .map-hud-select { background: rgba(255, 255, 255, .08); border: 1px solid var(--board-chrome-border); border-radius: 3px; color: inherit; font-size: 11px; padding: 2px 4px; cursor: pointer; }
@@ -261,6 +238,21 @@
       .rdo-obj-list { margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
       .rdo-obj { display: flex; align-items: baseline; gap: 5px; font-size: 12px; }
 
+      /* -- order-of-battle tree panel -- */
+      .oob-panel-body { max-height: 70vh; overflow-y: auto; font-size: 12px; }
+      .oob-tree-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+      .oob-tree-root { gap: 4px; }
+      .oob-tree-item { display: flex; flex-direction: column; }
+      .oob-tree-row { display: flex; align-items: center; gap: 6px; padding: 5px 6px; border-radius: 3px; }
+      .oob-tree-row-clickable { cursor: pointer; }
+      .oob-tree-row-clickable:hover { background: var(--color-neutral-100); }
+      .oob-tree-chevron { display: inline-block; width: 12px; opacity: .6; }
+      .oob-tree-name { flex: 1; }
+      .oob-tree-inspect { margin-left: auto; padding: 2px 8px; font-size: 11px; }
+      .oob-unit-card { margin-top: 3px; margin-bottom: 3px; padding: 8px 10px; border: 1px solid var(--color-divider); border-radius: 4px; background: var(--color-surface); }
+      .oob-unit-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+      .oob-unit-traits { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+
       /* -- turn report modal (Phase 4.8 sub-phase D.5) -- */
       .trp-body { display: flex; flex-direction: column; gap: var(--space-2); max-height: 70vh; overflow-y: auto; }
       .trp-mine-toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; }
@@ -273,8 +265,8 @@
       .map-route-eta { position: absolute; z-index: 4; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; pointer-events: none; white-space: nowrap; }
       .map-route-eta[hidden] { display: none; }
     </style>
-    <script type="module" crossorigin src="./assets/main-Bgai1J7T.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-CAU_VQ-a.js">
+    <script type="module" crossorigin src="./assets/main-DkpKoiUG.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-H1rNS0RH.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-DUd5A5Jq.css">
   </head>
   <body>
