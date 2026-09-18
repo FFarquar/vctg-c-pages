@@ -212,8 +212,10 @@
       .bfl-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
       .bfl-card-title { font-weight: 600; }
       .bfl-owner-actions { display: flex; gap: var(--space-2); }
-      .bfl-posture { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
-      .bfl-posture-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+      .bfl-posture { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+      .bfl-posture-entry { display: flex; flex-direction: column; gap: 2px; }
+      .bfl-posture-name-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+      .bfl-posture-composition { font-size: 11px; opacity: .7; white-space: nowrap; }
       .bfl-posture-toggle-open { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
       .bfl-result-form { display: flex; flex-direction: column; gap: var(--space-2); }
       .bfl-stands { width: 64px; }
@@ -221,7 +223,7 @@
       .bfl-result-side { margin-top: 6px; }
       .bfl-result-list { margin: 4px 0 0; padding-left: 18px; }
       /* nowrap only — never truncated. A name too long to sit beside its
-         posture `<select>` wraps the whole row instead (`.bfl-posture-row`'s
+         composition summary wraps the whole row instead (`.bfl-posture-name-row`'s
          `flex-wrap: wrap`), so the name is always shown in full. */
       .bfl-formation-name { display: inline-block; white-space: nowrap; }
       .bfl-composition { display: flex; flex-direction: column; gap: 6px; }
@@ -286,7 +288,7 @@
       .map-route-eta { position: absolute; z-index: 4; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; pointer-events: none; white-space: nowrap; }
       .map-route-eta[hidden] { display: none; }
     </style>
-    <script type="module" crossorigin src="./assets/main-CRznjYBp.js"></script>
+    <script type="module" crossorigin src="./assets/main-CZJSB7Ar.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/prefs-Dz6SjtME.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-R9HT7I9I.css">
   </head>
