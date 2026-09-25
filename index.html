@@ -101,6 +101,10 @@
       .log-turn-banner { position: sticky; top: 0; z-index: 1; background: var(--color-surface); font: 700 20px var(--font-heading); letter-spacing: .06em; text-transform: uppercase; text-align: center; opacity: .7; padding: 3px 0; }
       .log-row { display: flex; flex-direction: column; gap: 2px; padding: 4px 2px; font-size: 12px; border-bottom: 1px solid rgba(0, 0, 0, .06); }
       .log-row-clickable { cursor: pointer; }
+      .log-battle { display: flex; flex-direction: column; }
+      .log-battle > .log-row-battleTriggered .log-row-text { font-weight: 600; }
+      .log-row-child { padding-left: 16px; }
+      .log-more { align-self: flex-start; font-size: 11px; }
       .log-row-clickable:hover { background: var(--color-neutral-100); }
       .log-row-kind { font-weight: 700; opacity: .6; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; }
       .log-row-text { flex: 1; }
@@ -330,13 +334,21 @@
       .trp-group { display: flex; flex-direction: column; gap: 2px; }
       .trp-group-head { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; opacity: .6; margin-top: 4px; }
       .trp-row { font-size: 12px; padding: 2px 0; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+      .trp-row-clickable { cursor: pointer; }
+      .trp-row-clickable:hover { background: var(--color-neutral-100); }
+      .trp-battle { display: flex; flex-direction: column; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+      .trp-battle .trp-row { border-bottom: 0; font-weight: 600; }
+      .trp-child { font-size: 12px; padding: 1px 0 1px 14px; opacity: .85; }
+      .trp-more { align-self: flex-start; font-size: 11px; }
+      .trp-more-rows { display: flex; flex-direction: column; gap: 2px; }
+      .trp-footer-note { font-size: 11px; opacity: .65; padding-top: 6px; border-top: 1px solid rgba(0, 0, 0, .1); }
 
       .map-route-hint { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 7; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 6px 12px; border-radius: 4px; font-size: 12px; }
       .map-route-hint[hidden] { display: none; }
       .map-route-eta { position: absolute; z-index: 4; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; pointer-events: none; white-space: nowrap; }
       .map-route-eta[hidden] { display: none; }
     </style>
-    <script type="module" crossorigin src="./assets/main-DZxSl3y4.js"></script>
+    <script type="module" crossorigin src="./assets/main-CJj0kT9T.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/prefs-q8GuQPGh.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-D0QnzD_s.css">
   </head>
