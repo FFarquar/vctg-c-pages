@@ -154,6 +154,10 @@
       .insp-unit-name { flex: 1; }
       .insp-unit-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-caution); border: 1px solid var(--color-caution); border-radius: 6px; padding: 0 4px; }
       .insp-actions { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+      .insp-order { display: flex; flex-direction: column; gap: 6px; }
+      .insp-order-title { font-weight: 600; }
+      .insp-order-row { display: flex; flex-wrap: wrap; gap: 6px; }
+      .insp-order-warn { color: var(--color-caution); opacity: 1; font-style: normal; }
       .insp-multi { list-style: none; margin: 6px 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
       .insp-multi-child { padding-left: 18px; }
       .insp-multi-btn { display: flex; align-items: center; width: 100%; text-align: left; background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 3px; padding: 5px 8px; cursor: pointer; color: inherit; font: inherit; }
@@ -207,10 +211,11 @@
       .opop-unit-list { display: flex; flex-direction: column; gap: 3px; max-height: 140px; overflow-y: auto; border: 1px solid var(--board-chrome-border); border-radius: 3px; padding: 4px 6px; }
       .opop-unit { display: flex; gap: 6px; align-items: center; }
       .opop-confirm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--color-caution); border: 1px solid var(--color-caution); color: var(--color-neutral-900); border-radius: 3px; padding: 6px 8px; margin-bottom: 8px; }
-      .opop-march-order { list-style: decimal; margin: 6px 0 0; padding: 0 0 0 20px; display: flex; flex-direction: column; gap: 4px; }
-      .opop-march-order li { display: flex; gap: 6px; align-items: center; }
-      .opop-march-order li > span:nth-child(2) { flex: 1; }
-      .opop-march-kind { opacity: .6; font-size: 10px; text-transform: uppercase; }
+      .insp-march > summary { cursor: pointer; font-weight: 600; }
+      .insp-march-list { list-style: decimal; margin: 6px 0 0; padding: 0 0 0 20px; display: flex; flex-direction: column; gap: 4px; }
+      .insp-march-list li { display: flex; gap: 6px; align-items: center; }
+      .insp-march-label { flex: 1; }
+      .insp-march-kind { opacity: .6; font-size: 10px; text-transform: uppercase; }
       .opop-actions { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
 
       /* -- orders review panel (Phase 4.8 sub-phase D.1) -- */
@@ -356,8 +361,8 @@
       .map-route-eta { position: absolute; z-index: 4; background: var(--board-chrome-bg); border: 1px solid var(--board-chrome-border); color: var(--board-chrome-text); padding: 4px 8px; border-radius: 4px; font-size: 11px; pointer-events: none; white-space: nowrap; }
       .map-route-eta[hidden] { display: none; }
     </style>
-    <script type="module" crossorigin src="./assets/main-BcOSZr1O.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-BxWH-71a.js">
+    <script type="module" crossorigin src="./assets/main-CEgbKeTj.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-CPIUesUO.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-CRRN5Y2N.css">
   </head>
   <body>
