@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VCTG-C — new interface (preview)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@400;500&family=Spectral:wght@500;700&family=Cormorant+Garamond:wght@600;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+    <!-- app-shell.css: the login/picker screens reused as-is from the
+         classic client (via app/bootstrap.ts) need their chrome; the new
+         map screen's own chrome is play-shell.css. -->
+    <script type="module" crossorigin src="./assets/play-BdBiqCkJ.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-DEoeIVU8.js">
+    <link rel="modulepreload" crossorigin href="./assets/bootstrap-Ds2usyBu.js">
+    <link rel="stylesheet" crossorigin href="./assets/prefs-2RrEnmiq.css">
+    <link rel="stylesheet" crossorigin href="./assets/bootstrap-BZzcm5RW.css">
+    <link rel="stylesheet" crossorigin href="./assets/play-BUqa31I1.css">
+  </head>
+  <body>
+    <!-- Pure-CSS fallback (stage 2, brief item 6) — shows below 1100px wide
+         even if src/play/main.ts is slow to mount, and never needs JS to
+         appear or disappear as the window resizes. -->
+    <div id="pl-too-small" class="pl-too-small era-theme">
+      <div class="pl-too-small-body">
+        <p>This window is too small for the new interface.</p>
+        <p>Please use a wider window (at least 1100&nbsp;px), or <a href="./index.html">open the classic interface</a>.</p>
+      </div>
+    </div>
+    <div id="app"></div>
+  </body>
+</html>
