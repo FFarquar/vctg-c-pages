@@ -83,7 +83,12 @@
 
       .sa-map-layout { display: flex; gap: 10px; height: calc(100vh - 90px); }
       .sa-map-canvas { flex: 1; background: var(--board-bg); border: 1px solid var(--color-divider); }
-      .sa-map-side { width: 280px; overflow-y: auto; }
+      .sa-map-side { width: 280px; display: flex; flex-direction: column; min-height: 0; }
+      /* Save map / hovered-hex readout — kept outside the scrolling part
+         below so they stay visible no matter how far the rest of the panel
+         (Mode, palette, Start locations, ...) is scrolled. */
+      .sa-map-side-header { flex: none; }
+      .sa-map-side-scroll { flex: 1; overflow-y: auto; min-height: 0; }
       .sa-coord-display { font-family: monospace; font-size: 12px; opacity: .8; margin: 0 0 10px; }
       /* Settlement name + type shown next to the hovered hex coordinate — 2pt
          larger than the monospace coordinate readout it trails. */
@@ -163,9 +168,9 @@
       .sa-assign-note-none { color: var(--color-caution); opacity: 1; }
       .sa-inline-check { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 8px; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-BTkvwHdx.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-BpTfQyz7.js">
-    <link rel="modulepreload" crossorigin href="./assets/terrainArt-CrljzhJ4.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-DcFkFCeA.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-CRMu4rEn.js">
+    <link rel="modulepreload" crossorigin href="./assets/terrainArt-C26ke5nk.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-2RrEnmiq.css">
   </head>
   <body>
