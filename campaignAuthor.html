@@ -31,6 +31,11 @@
       .sa-field > label { opacity: .7; }
       .sa-field input[type="checkbox"] { width: 16px; height: 16px; align-self: flex-start; }
 
+      /* A field that spans every column of its enclosing .sa-grid row (e.g. the free-text
+         Notes field, formHelpers.ts textareaField) instead of sitting in a single cell. */
+      .sa-field-wide { grid-column: 1 / -1; }
+      .sa-notes { min-height: 120px; resize: vertical; font-family: inherit; white-space: pre-wrap; }
+
       /* Read-only sum readout (e.g. weather profile's per-month totals) sat inside an
          .sa-field in place of an input. Flagged when a month has no weight at all. */
       .sa-total-value { font-variant-numeric: tabular-nums; }
@@ -168,10 +173,10 @@
       .sa-assign-note-none { color: var(--color-caution); opacity: 1; }
       .sa-inline-check { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 8px; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-DcFkFCeA.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-CRMu4rEn.js">
-    <link rel="modulepreload" crossorigin href="./assets/terrainArt-C26ke5nk.js">
-    <link rel="stylesheet" crossorigin href="./assets/prefs-2RrEnmiq.css">
+    <script type="module" crossorigin src="./assets/campaignAuthor-CGPvtUN7.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-BXExfa4a.js">
+    <link rel="modulepreload" crossorigin href="./assets/terrainArt-CztYav8B.js">
+    <link rel="stylesheet" crossorigin href="./assets/prefs-DRd8CAYM.css">
   </head>
   <body>
     <div id="root" class="era-theme"></div>
