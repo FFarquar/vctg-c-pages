@@ -172,10 +172,35 @@
       .sa-assign-note { font-size: 12px; opacity: .7; white-space: nowrap; }
       .sa-assign-note-none { color: var(--color-caution); opacity: 1; }
       .sa-inline-check { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 8px; }
+
+      /* Battle Sim tab (tabs/battleSim.ts) — formation checkbox tree per side, and the result rendered with
+         the same `.ardv-*` auto-resolve debrief classes the player client uses (`renderDebrief`), copied here
+         verbatim from src/styles/app-shell.css rather than linking that whole stylesheet (which also carries
+         page chrome for classic/play that has no business here). */
+      .sa-battlesim-tree { display: flex; flex-direction: column; gap: 2px; }
+      .sa-battlesim-row { display: flex; align-items: baseline; gap: 6px; padding: 2px 0; }
+      .sa-battlesim-echelon { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; opacity: .55; }
+      .ardv { display: flex; flex-direction: column; gap: var(--space-3); }
+      .ardv-card { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3); border: 1px solid var(--color-divider); }
+      .ardv-headline { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; }
+      .ardv-line { font-size: 13px; }
+      .ardv-subhead { margin-top: var(--space-2); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: .03em; opacity: .6; }
+      .ardv-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+      .ardv-table th, .ardv-table td { padding: 3px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(0, 0, 0, .08); }
+      .ardv-table th.ardv-side { border-bottom: 3px solid var(--color-divider); font-weight: 700; width: 36%; }
+      .ardv-table td.ardv-label { width: 28%; opacity: .75; }
+      .ardv-swatch { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 2px; }
+      .ardv-phase { border: 1px solid var(--color-divider); padding: var(--space-2) var(--space-3); }
+      .ardv-phase > summary { cursor: pointer; display: flex; gap: var(--space-3); align-items: baseline; }
+      .ardv-phase-flat { display: flex; gap: var(--space-3); align-items: baseline; opacity: .8; }
+      .ardv-phase-title { font-weight: 700; min-width: 110px; }
+      .ardv-phase-summary { font-size: 13px; }
+      .ardv-phase-body { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
+      .ardv-note { font-size: 12px; opacity: .8; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-oBaVcPCg.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-BWw1Dtwp.js">
-    <link rel="modulepreload" crossorigin href="./assets/terrainArt-T8q0GWj8.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-CgHnSOeL.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-Dnfab1vW.js">
+    <link rel="modulepreload" crossorigin href="./assets/terrainArt-CLktmhxc.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-DRd8CAYM.css">
   </head>
   <body>
