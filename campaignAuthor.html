@@ -50,10 +50,13 @@
          per era, so — unlike the old hardcoded dark style this replaced —
          no separate Atlas override is needed. */
       .sa-tooltip {
-        position: fixed; z-index: 1000; max-width: 420px; pointer-events: none;
+        position: fixed; z-index: 1000; max-width: 420px; max-height: 70vh; overflow-y: auto; pointer-events: none;
         border-radius: var(--radius-md); background: var(--board-chrome-bg);
         color: var(--board-chrome-text); font: 400 17.25px/1.35 var(--font-body, system-ui, sans-serif);
         padding: 10px 14px; box-shadow: var(--shadow-md);
+        /* Battle Sim's per-formation unit-list tooltip (tabs/battleSim.ts) is multi-line (`\n`-joined); every
+           other caller here is a single short phrase with no `\n`, so this is a no-op for them. */
+        white-space: pre-line;
       }
 
       .sa-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
@@ -177,9 +180,18 @@
          the same `.ardv-*` auto-resolve debrief classes the player client uses (`renderDebrief`), copied here
          verbatim from src/styles/app-shell.css rather than linking that whole stylesheet (which also carries
          page chrome for classic/play that has no business here). */
+      /* Selection column (left, just the army/corps panels) vs result column (right: result, then battle
+         setup/posture/force totals/run beneath it) — even 50/50 split. */
+      .sa-battlesim-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, 1fr); gap: 16px; align-items: start; }
+      .sa-battlesim-columns > div { min-width: 0; }
+      /* Side-by-side army/corps panels (one per side) — fixed width, not `1fr`: a flexible track stretches to
+         fill whatever room the left column has, which is most of the screen once maximised. */
+      .sa-battlesim-sides { display: grid; grid-template-columns: repeat(2, 450px); gap: 6px 16px; }
       .sa-battlesim-tree { display: flex; flex-direction: column; gap: 2px; }
       .sa-battlesim-row { display: flex; align-items: baseline; gap: 6px; padding: 2px 0; }
       .sa-battlesim-echelon { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; opacity: .55; }
+      .sa-battlesim-breakdown { font-size: 11px; opacity: .65; margin-left: 22px; }
+      .sa-battlesim-sptotal td { font-weight: 700; }
       .ardv { display: flex; flex-direction: column; gap: var(--space-3); }
       .ardv-card { display: flex; flex-direction: column; gap: 3px; padding: var(--space-3); border: 1px solid var(--color-divider); }
       .ardv-headline { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; }
@@ -189,6 +201,10 @@
       .ardv-table th, .ardv-table td { padding: 3px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid rgba(0, 0, 0, .08); }
       .ardv-table th.ardv-side { border-bottom: 3px solid var(--color-divider); font-weight: 700; width: 36%; }
       .ardv-table td.ardv-label { width: 28%; opacity: .75; }
+      .ardv-table tr.ardv-row-sub td.ardv-value { opacity: .7; font-size: 11.5px; }
+      .ardv-table td.ardv-label-sub { padding-left: 20px; opacity: .55; font-size: 11.5px; }
+      .ardv-table-losses td.ardv-label:not(.ardv-label-sub) { font-weight: 700; opacity: .9; }
+      .ardv-table-losses td.ardv-label-sub { padding-left: 36px; }
       .ardv-swatch { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 2px; }
       .ardv-phase { border: 1px solid var(--color-divider); padding: var(--space-2) var(--space-3); }
       .ardv-phase > summary { cursor: pointer; display: flex; gap: var(--space-3); align-items: baseline; }
@@ -198,9 +214,9 @@
       .ardv-phase-body { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
       .ardv-note { font-size: 12px; opacity: .8; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-CgHnSOeL.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-Dnfab1vW.js">
-    <link rel="modulepreload" crossorigin href="./assets/terrainArt-CLktmhxc.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-BBTIBZHc.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-BWSz2ak-.js">
+    <link rel="modulepreload" crossorigin href="./assets/terrainArt-DVvbMWIS.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-DRd8CAYM.css">
   </head>
   <body>
