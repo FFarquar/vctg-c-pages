@@ -76,6 +76,13 @@
       .sa-chip.sa-chip-on { background: var(--color-accent, var(--color-neutral-900)); color: var(--color-bg); opacity: 1; border-color: transparent; }
       .sa-chips-empty { font-size: 11px; opacity: .5; }
 
+      /* Units-table formation filter (tabs/ob.ts echelonFilterRow): each
+         Corps chip gets its own outline color (set inline via `style.outlineColor`,
+         one per Corps so they stay distinct); a Division chip borrows its
+         parent Corps's color once that Corps is picked. The class just
+         supplies the outline's shape — the color is per-instance. */
+      .sa-chip.sa-chip-hl { outline: 2px solid; outline-offset: 1px; }
+
       .sa-array-item { border: 1px dashed var(--color-divider); border-radius: 4px; padding: 8px; margin-bottom: 8px; position: relative; }
 
       /* A denser, full-grid-bordered table shape than the shared `.table`
@@ -214,7 +221,7 @@
       .ardv-phase-body { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
       .ardv-note { font-size: 12px; opacity: .8; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-_uWcJGuz.js"></script>
+    <script type="module" crossorigin src="./assets/campaignAuthor-BJ7SdNBh.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/prefs-D5ug5FUL.js">
     <link rel="modulepreload" crossorigin href="./assets/terrainArt-CO11hAME.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-zoc96gnf.css">
