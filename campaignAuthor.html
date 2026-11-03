@@ -199,8 +199,8 @@
          the same `.ardv-*` auto-resolve debrief classes the player client uses (`renderDebrief`), copied here
          verbatim from src/styles/app-shell.css rather than linking that whole stylesheet (which also carries
          page chrome for classic/play that has no business here). */
-      /* Selection column (left, just the army/corps panels) vs result column (right: result, then battle
-         setup/posture/force totals/run beneath it) — even 50/50 split. */
+      /* Selection column (left, just the army/corps panels) vs result column (right: battle setup/posture/force
+         totals/run, then the result beneath the Run button — human-requested 2026-11-03) — even 50/50 split. */
       .sa-battlesim-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, 1fr); gap: 16px; align-items: start; }
       .sa-battlesim-columns > div { min-width: 0; }
       /* Side-by-side army/corps panels (one per side) — fixed width, not `1fr`: a flexible track stretches to
@@ -238,16 +238,18 @@
       .ardv-diceroll-unit { border: 1px solid var(--color-divider); padding: 4px 8px; }
       .ardv-diceroll-unit-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 2px; }
       .ardv-diceroll-unit-name { display: flex; align-items: center; gap: 4px; font-size: 12.5px; }
+      .ardv-diceroll-unit-summary { font-size: 10.5px; opacity: .65; font-weight: 400; }
       .ardv-diceroll-unit-traits { display: flex; flex-wrap: wrap; gap: 4px; }
       .ardv-diceroll-round { font-size: 11.5px; opacity: .85; padding-left: 8px; }
+      .ardv-diceroll-damage { font-size: 11.5px; font-weight: 600; padding-left: 8px; margin-top: 2px; }
       .ardv-diceroll-empty { font-size: 12px; opacity: .6; }
       /* The NATO-style unit-type glyph (unitSymbol.ts's unitTypeSymbol), copied verbatim for the same reason as
          the .ardv-* block above. */
       .oob-unit-symbol { flex: none; color: var(--color-text); opacity: .85; }
     </style>
-    <script type="module" crossorigin src="./assets/campaignAuthor-2C8l2sql.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/prefs-DXGovUzN.js">
-    <link rel="modulepreload" crossorigin href="./assets/terrainArt-B1f74L7Z.js">
+    <script type="module" crossorigin src="./assets/campaignAuthor-BOwl0UQE.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/prefs-BBhaO4fQ.js">
+    <link rel="modulepreload" crossorigin href="./assets/terrainArt-BiXiunKi.js">
     <link rel="stylesheet" crossorigin href="./assets/prefs-BpadYLDz.css">
   </head>
   <body>
